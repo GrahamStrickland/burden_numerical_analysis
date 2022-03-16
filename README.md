@@ -6,5 +6,10 @@ Please see book website for code: https://sites.google.com/site/numericalanalysi
 
 I have tested code with various examples from the textbook and mostly seem to reproduce the correct results.
 
-Still need to add file input/output. The structure of the code is also very much derived from the C programs mentioned above,
+One major difference from the textbook code is that I still need to add file input/output. For now,
+all output is to the console in the form of tables where appropriate.
+
+The structure of the code is also very much derived from the C programs mentioned above,
 and may not be very "Pythonic".
+
+Makes use of Numpy for some algorithms but I have tried to use only the Math module where possible.
