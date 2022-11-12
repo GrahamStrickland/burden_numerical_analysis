@@ -1,9 +1,0 @@
-{
-  "files.associations": {
-    "iostream": "cpp",
-    "ostream": "cpp",
-    "cmath": "cpp",
-    "ALG021.C": "cpp"
-  },
-  "editor.tabSize": 4
-}
