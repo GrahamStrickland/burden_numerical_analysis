@@ -1,85 +1,96 @@
-# 2.1 Bisection
-# To find a solution to f(x) = 0 given the continuous function f on the interval [a, b], where f(a) and f(b) have opposite signs:
-# INPUT endpoints a, b; tolerance TOL; maximum number of iterations N0.
-# OUTPUT approximate solution p or message of failure.
-# import the math module
+#!/usr/bin/env python3
 import math
+from collections.abc import Callable
 
 
-# define function f(x)
-def f(x):
-  return 2.0 - (x * math.exp(x))
+class Bisection:
+    """To find a solution to f(x) = 0 given the continuous function f on the interval 
+    [a, b], where f(a) and f(b) have opposite signs:
+    INPUT endpoints a, b; tolerance tol; maximum number of iterations n_0.
+    OUTPUT approximate solution p or message of failure.
+    """
+
+    def __init__(self, function: Callable[float], a: float, b: float, 
+            tol: float, n_0: float):
+        self.function = function
+        self.a = a
+        self.b = b
+        self.tol = tol
+        self.n_0 = n_0
+
+    def f(x):
+      return 2.0 - (x * math.exp(x))
 
 
-def inp_vals(OK, a, b, f_a, f_b, TOL, n_0):
-  # check if function has been assigned
-  OK = False
-  ans = input("Have you defined the function f before starting this program? (Y/N): ")
-  if ans == 'Y' or ans == 'y':
-    OK = True
-
-    OK = False
-    while OK == False:
-      # enter amount for lower and upper bounds (a and b)
-      a = float(input("Please enter a value for the lower bound (a): "))
-      b = float(input("Please enter a value for the upper bound (b): "))
-
-      # check that b != a
-      if b == a:
-        print("a and b cannot have the same value.")
-      else:
+    def input_values(OK, a, b, f_a, f_b, TOL, n_0):
+      # check if function has been assigned
+      OK = False
+      ans = input("Have you defined the function f before starting this program? (Y/N): ")
+      if ans == 'Y' or ans == 'y':
         OK = True
 
-      # if b < a, reverse order of a and b
-      if b < a:
-        x = a
-        a = b
-        b = x
-
-      # define f(a) and f(b)
-      f_a = f(a)
-      f_b = f(b)
-
-      # check that f(a) and f(b) have different signs
-      if OK == True:
         OK = False
-        if f_a * f_b > 0.0:
-          print("f(a) and f(b) cannot have the same sign.")
-        else:
-          OK = True
+        while OK == False:
+          # enter amount for lower and upper bounds (a and b)
+          a = float(input("Please enter a value for the lower bound (a): "))
+          b = float(input("Please enter a value for the upper bound (b): "))
 
-    OK = False
-    while OK == False:
-      # input value for tolerance
-      TOL = float(input("Please input a value for the tolerance: "))
+          # check that b != a
+          if b == a:
+            print("a and b cannot have the same value.")
+          else:
+            OK = True
 
-      # check that TOL > 0
-      if TOL <= 0.0:
-        print("Tolerance must be a positive number.")
-      else:
-        OK = True
+          # if b < a, reverse order of a and b
+          if b < a:
+            x = a
+            a = b
+            b = x
 
-    OK = False
-    while OK == False:
-      # input value for maximum number of iterations
-      n_0 = int(input("Please input a value for the maximum number of iterations (N0): "))
+          # define f(a) and f(b)
+          f_a = f(a)
+          f_b = f(b)
 
-      # check that N0 > 0
-      if n_0 <= 0:
-        print("Maximum number of iterations must be a positive integer.")
-      else:
-        OK = True
+          # check that f(a) and f(b) have different signs
+          if OK == True:
+            OK = False
+            if f_a * f_b > 0.0:
+              print("f(a) and f(b) cannot have the same sign.")
+            else:
+              OK = True
 
-    # return values for function
-    return OK, a, b, f_a, f_b, TOL, n_0
-  else: # if answer is not yes, terminate program
-    print("Terminating program so that functions can be defined.")
-    return
+        OK = False
+        while OK == False:
+          # input value for tolerance
+          TOL = float(input("Please input a value for the tolerance: "))
+
+          # check that TOL > 0
+          if TOL <= 0.0:
+            print("Tolerance must be a positive number.")
+          else:
+            OK = True
+
+        OK = False
+        while OK == False:
+          # input value for maximum number of iterations
+          n_0 = int(input("Please input a value for the maximum number of iterations (N0): "))
+
+          # check that N0 > 0
+          if n_0 <= 0:
+            print("Maximum number of iterations must be a positive integer.")
+          else:
+            OK = True
+
+        # return values for function
+        return OK, a, b, f_a, f_b, TOL, n_0
+      else: # if answer is not yes, terminate program
+        print("Terminating program so that functions can be defined.")
+        return
 
 
-# define function to output row of table
-def row_outp(n, a, b, p, f_p):
-  print("{}\t\t{:.10f}\t{:.10f}\t{:.10f}\t{:.10f}\n".format(n, a, b, p, f_p))
+    # define function to output row of table
+    def row_outp(n, a, b, p, f_p):
+      print("{}\t\t{:.10f}\t{:.10f}\t{:.10f}\t{:.10f}\n".format(n, a, b, p, f_p))
 
 
 # define main function
@@ -93,7 +104,7 @@ def main():
   print("This is the Bisection Algorithm")
 
   # input values
-  OK, a, b, f_a, f_b, TOL, n_0 = inp_vals(OK, a, b, f_a, f_b, TOL, n_0)
+  OK, a, b, f_a, f_b, TOL, n_0 = input_values(OK, a, b, f_a, f_b, TOL, n_0)
 
   # check if output must be table or answer only
   OK = False
