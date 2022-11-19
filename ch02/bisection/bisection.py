@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-import math
 from collections.abc import Callable
-from typing import TextIO
+from typing import TextIO, IO
 
 
 class Bisection:
@@ -11,33 +10,31 @@ class Bisection:
     OUTPUT approximate solution p or message of failure.
     """
 
-    def __init__(self, function: Callable[float]):
+    def __init__(self, function: Callable[[float], float]):
         self.function = function
 
     def bisect(self, a: float, b: float, tol: float, n_0: float,
-               file=None: TextIO) -> list[float]:
+               file: TextIO[str] = None) -> float:
         """Input endpoints a and b, tolerance tol, and maximum number of iterations
         n_0, as well as optional output file.
         """
-        a = b = f_a = f_b = tol = 0.0
-        n_0 = 0
-
-        if file:
-            open(file, 'w')
+        p: float = 0.0
+        f_a: float = 0.0
+        f_p: float = 0.0
 
         # STEP 1: set iterator
-        i = 1
+        i: int = 1
 
         # STEP 2: while i < N0 do steps 3-6
         while i < n_0:
             # STEP 3: compute p_i
-            c = (b - a)/2.0
+            c: float = (b - a) / 2.0
             p = a + c
-            f_p = f(p)
+            f_p = self.function(p)
 
             # if table output selected, output row
             if file:
-                _row_output(i, a, b, p, f_p, file)
+                self._row_output(i, a, b, p, f_p, file)
 
             # STEP 4: procedure completed successfully
             if abs(f_p) < 0.0 or c < tol:
@@ -46,10 +43,13 @@ class Bisection:
                     f(P) = {:.10}
                     Number of iterations = {}
                     TOL = {}
-                    """.format(p, f_p, i, TOL)
-                print(output_string)
-            return
-          
+                    """.format(p, f_p, i, tol)
+                if not file:
+                    print(output_string)
+                else:
+                    file.write(output_string)
+                return p
+
             # STEP 5: increment iterator to continue running algorithm
             i += 1
 
@@ -58,20 +58,22 @@ class Bisection:
                 a = p
                 f_a = f_p
             else:
-                b = p # f(a) is unchanged
-                f_b = f_p
+                b = p   # f(a) is unchanged
 
         # STEP 7: method failed, output result
         output_string = """
-            Iteration number {} gave approximation {:.10f}, 
-            with f(P) = {:.10f} not within tolerance {}.
-            """.format(n_0, p, f_p, tol))
-        file.write(output_string)
-        file.close()
+            Method failed after {} iterations with approximation {:.10f}
+            and f(P) = {:.10f} not within tolerance {}.
+            """.format(n_0, p, f_p, tol)
+        if not file:
+            print(output_string)
+        else:
+            file.write(output_string)
+            file.close()
 
-
-    def _row_output(self, n: int, a: float, b: float, p: float, f_p: float, 
-                    file: TextIO) -> None:
+    @staticmethod
+    def _row_output(n: int, a: float, b: float, p: float, f_p: float,
+                    file: TextIO[str]) -> None:
         """Function to output row of table."""
-        string = "{}\t\t{:.10f}\t{:.10f}\t{:.10f}\t{:.10f}\n".format(n, a, b, p, f_p())
+        string = "{}\t\t{:.10f}\t{:.10f}\t{:.10f}\t{:.10f}\n".format(n, a, b, p, f_p)
         file.write(string)
