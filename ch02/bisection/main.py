@@ -8,7 +8,7 @@ def f(x: float) -> float:
     return 2.0 - (x * math.exp(x))
 
 
-def input_values(file: TextIO[str]) -> list[float]:
+def input_values(file: TextIO) -> list[float]:
     # check if function has been assigned
     ans = input("Have you defined the function f before starting this program? (Y/N): ")
     if ans == 'Y' or ans == 'y':
@@ -68,10 +68,6 @@ def main():
 
     output_file: str = input("Enter name of output file: ")
 
-    # output table heading
-    output_string = '-' * 80
-    output_string += "n\t\ta\t\tb\t\tP\t\tf(P)"
-    output_string += '-' * 80
     if output_file:
         open(file=output_file, mode='w')
         output_file.write(output_string)
