@@ -12,7 +12,7 @@ def test_bisection() -> None:
 
     a: float = 1.0
     b: float = 2.0
-    tol: float = 10e-4
+    tol: float = 1e-4
     n_0: int = 15
 
     obs = bisect.bisect(a, b, tol, n_0)

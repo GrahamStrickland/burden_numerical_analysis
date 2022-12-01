@@ -2,6 +2,7 @@
 from inspect import cleandoc
 from collections.abc import Callable
 from typing import TextIO
+import pdb
 
 
 class Bisection:
@@ -21,23 +22,21 @@ class Bisection:
         """
         if table_output:
             # output table heading
-            output_string = '-' * 80
-            output_string += "\n\t\ta\t\tb\t\tP\t\tf(P)\n"
-            output_string += '-' * 80
+            output_string = f"{'-'*80}\n\t\ta\t\tb\t\tP\t\tf(P)\n{'-'*80}"
             if not file:
                 print(output_string)
             else:
                 file.write(output_string)
 
-        p: float = 0.0
-        f_a: float = 0.0
-        f_p: float = 0.0
-
         # STEP 1: set iterator
         i: int = 1
+        f_a: float = self.function(a)
+        p: float = 0.0
+        f_p: float = 0.0
 
         # STEP 2: while i < N0 do steps 3-6
-        while i < n_0:
+        while i <= n_0:
+            pdb.set_trace()
             # STEP 3: compute p_i
             c: float = (b - a) / 2.0
             p = a + c

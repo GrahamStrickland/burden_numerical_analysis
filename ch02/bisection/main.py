@@ -2,6 +2,7 @@
 import bisection
 import math
 from typing import TextIO
+from argparse import ArgumentParser
 
 
 def f(x: float) -> float:
@@ -61,6 +62,15 @@ def input_values(file: TextIO) -> list[float]:
 
 
 def main():
+    parser = ArgumentParser()
+    parser.add_argument(
+        name="a",
+        description="left endpoint of the interval",
+        required=True
+    )
+
+    parser.parse_args()
+
     # print introduction
     print("This is the Bisection Algorithm")
 
