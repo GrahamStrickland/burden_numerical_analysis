@@ -2,7 +2,6 @@
 from inspect import cleandoc
 from collections.abc import Callable
 from typing import TextIO
-import pdb
 
 
 class Bisection:
@@ -36,7 +35,6 @@ class Bisection:
 
         # STEP 2: while i < N0 do steps 3-6
         while i <= n_0:
-            pdb.set_trace()
             # STEP 3: compute p_i
             c: float = (b - a) / 2.0
             p = a + c

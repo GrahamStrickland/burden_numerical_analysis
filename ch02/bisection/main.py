@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
+import argparse
 import bisection
 import math
-from typing import TextIO
-from argparse import ArgumentParser
 
 
 def f(x: float) -> float:
     return 2.0 - (x * math.exp(x))
 
 
-def input_values(file: TextIO) -> list[float]:
+def parse_file_input(*args) -> None:
+    pass
+
+
+def parse_console_input(*args) -> None:
     # check if function has been assigned
     ans = input("Have you defined the function f before starting this program? (Y/N): ")
     if ans == 'Y' or ans == 'y':
@@ -61,22 +64,76 @@ def input_values(file: TextIO) -> list[float]:
         return []
 
 
-def main():
-    parser = ArgumentParser()
+def get_input_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+        name="-f",
+        help="flag for file input",
+        action="store_true"
+    )
+    group.add_argument(
+        name="-c",
+        help="flag for console input",
+        action="store_true"
+    )
     parser.add_argument(
-        name="a",
-        description="left endpoint of the interval",
+        name="input_file",
+        type=argparse.FileType('r'),
+        help="name of input file",
         required=True
     )
+    parser.add_argument(
+        name="output_file",
+        type=argparse.FileType('w'),
+        help="name of output file",
+        required=False
+    )
+    parser.add_argument(
+        name="a",
+        type=float,
+        help="left endpoint of the interval",
+        required=True
+    )
+    parser.add_argument(
+        name="b",
+        type=float,
+        help="right endpoint of the interval",
+        required=True
+    )
+    parser.add_argument(
+        name="tol",
+        type=float,
+        help="tolerance for function",
+        required=True
+    )
+    parser.add_argument(
+        name="n_0",
+        type=int,
+        help="maximum number of iterations",
+        required=True
+    )
+    parser.add_argument(
+        name="output_file",
+        type=argparse.FileType('w'),
+        help="name of output file",
+        required=False
+    )
 
-    parser.parse_args()
+    args = parser.parse_args()
 
+    if args.file_input:
+        parse_file_input(args.file_input)
+    else:
+        parse_console_input(args.console_input)
+
+    return args
+
+
+def main() -> None:
     # print introduction
     print("This is the Bisection Algorithm")
-
-    [a, b, f_a, f_b, tol, n_0] = input_values()
-
-    output_file: str = input("Enter name of output file: ")
 
     if output_file:
         open(file=output_file, mode='w')
