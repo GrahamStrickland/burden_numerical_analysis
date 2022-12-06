@@ -7,17 +7,17 @@ from typing import TextIO
 class Bisection:
     """To find a solution to f(x) = 0 given the continuous function f on the interval 
     [a, b], where f(a) and f(b) have opposite signs:
-    INPUT endpoints a, b; tolerance tol; maximum number of iterations n_0.
+    INPUT endpoints a, b; tolerance tol; maximum number of iterations n0.
     OUTPUT approximate solution p or message of failure.
     """
 
     def __init__(self, function: Callable[[float], float]):
         self.function = function
 
-    def bisect(self, a: float, b: float, tol: float, n_0: float,
+    def bisect(self, a: float, b: float, tol: float, n0: float,
                table_output: bool = False, file: TextIO = None) -> float:
         """Input endpoints a and b, tolerance tol, and maximum number of iterations
-        n_0, as well as optional output file.
+        n0, as well as optional output file.
         """
         if table_output:
             # output table heading
@@ -34,7 +34,7 @@ class Bisection:
         f_p: float = 0.0
 
         # STEP 2: while i < N0 do steps 3-6
-        while i <= n_0:
+        while i <= n0:
             # STEP 3: compute p_i
             c: float = (b - a) / 2.0
             p = a + c
@@ -72,7 +72,7 @@ class Bisection:
         output_string = cleandoc("""\
             Method failed after {} iterations with approximation {:.10f}
             and f(P) = {:.10f} not within tolerance {}.
-            """.format(n_0, p, f_p, tol))
+            """.format(n0, p, f_p, tol))
         if not file:
             print(output_string)
         else:
