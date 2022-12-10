@@ -2,7 +2,7 @@
 import argparse
 import bisection
 import math
-from typing import Optional, TextIO
+from typing import TextIO
 
 
 def f(x: float) -> float:
@@ -15,10 +15,11 @@ def parse_file_input(input_file: TextIO) -> dict:
     b: float = float(vals[1])
     tol: float = float(vals[2])
     n0: int = int(vals[3])
+    table_output: bool = vals[4] is not None
 
     check_input_params(a, b, tol, n0)
 
-    return {"a": a, 'b': b, 'tol': tol, 'n0': n0}
+    return {"a": a, 'b': b, 'tol': tol, 'n0': n0, 'table_output': table_output}
 
 
 def check_input_params(a: float, b: float, tol: float, n0: int) -> None:
@@ -76,6 +77,11 @@ def get_input_args() -> dict:
         help="maximum number of iterations",
     )
     parser.add_argument(
+        name="table_output",
+        type=bool,
+        help="True for table output",
+    )
+    parser.add_argument(
         name="output_file",
         type=argparse.FileType('w'),
         help="name of output file",
@@ -87,29 +93,36 @@ def get_input_args() -> dict:
         params = parse_file_input(args.file_input)
     else:
         check_input_params(args.a, args.b, args.tol, args.n0)
-        params = {'a': args.a, 'b': args.b, 'tol': args.tol, 'n0': args.n0}
+        params = {'a': args.a, 'b': args.b, 'tol': args.tol, 'n0': args.n0, 'table_output': args.t}
 
     return params.update({'output_file': args.file_output}) if args.file_output else params
 
 
 def main() -> None:
-    # print introduction
-    print("This is the Bisection Algorithm")
+    bisect = bisection.Bisection(f)
 
-    # check if function has been assigned
-    ans = input("Have you defined the function f before starting this program? (Y/N): ")
-    if ans == 'yes':
-        if output_file:
-            open(file=output_file, mode='w')
-            output_file.write(output_string)
-            p: float = bisection.Bisection(a, b, tol, n0, output_file)
-        else:
-            print(output_string)
-            p: float = bisection.Bisection(a, b, tol, n0)
+    args: dict = get_input_args()
 
+    a: float = args['a']
+    b: float = args['b']
+    tol: float = args['tol']
+    n0: int = args['n0']
+    table_output: bool = args['table_output']
+    output_file: TextIO = args['output_file']
+
+    if output_file:
+        output_file.write("This is the Bisection Algorithm\n")
+        p: float = bisect.bisect(
+            a=a, b=b, tol=tol, n0=n0, table_output=True, file=output_file
+        )
+        output_file.write("p = {:.10f}".format(p))
+        output_file.close()
+    else:
+        print("This is the Bisection Algorithm")
+        p: float = bisect.bisect(
+            a=a, b=b, tol=tol, n0=n0, table_output=table_output, file=None
+        )
         print("p = {:.10f}".format(p))
-    else:   # if answer is not yes, terminate program
-        print("Terminating program so that functions can be defined.")
 
 
 if __name__ == "__main__":

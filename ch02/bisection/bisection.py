@@ -14,7 +14,7 @@ class Bisection:
     def __init__(self, function: Callable[[float], float]):
         self.function = function
 
-    def bisect(self, a: float, b: float, tol: float, n0: float,
+    def bisect(self, a: float, b: float, tol: float, n0: int,
                table_output: bool = False, file: TextIO = None) -> float:
         """Input endpoints a and b, tolerance tol, and maximum number of iterations
         n0, as well as optional output file.
