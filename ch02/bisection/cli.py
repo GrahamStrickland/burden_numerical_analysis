@@ -6,11 +6,13 @@ from typing import Callable, TextIO
 from bisection import bisect
 
 
-def func(x: float) -> float:
+def predefined_function(x: float) -> float:
+    """Predefined function in case user does not define a function."""
     return x - math.exp(x)
 
 
 def parse_file_input(input_file: TextIO) -> dict:
+    """Parse the endpoints, tolerance, and maximum number of inputs supplied in a CSV file."""
     vals = input_file.read().split(',')
     a: float = float(vals[0])
     b: float = float(vals[1])
@@ -22,6 +24,10 @@ def parse_file_input(input_file: TextIO) -> dict:
 
 def check_input_params(f: Callable[[float], float],
                        a: float, b: float, tol: float, n0: int) -> None:
+    """Check that the endpoints are not the same, the function values at the
+    endpoints f(a) and f(b) have opposite signs, the tolerance is positive,
+    and the number of iterations is positive.
+    """
     # check that b != a
     if b == a:
         raise IOError("a and b cannot have the same value.")
@@ -48,88 +54,93 @@ def check_input_params(f: Callable[[float], float],
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description=bisect.__doc__)
 
     parser.add_argument(
-        name="a",
-        type=float,
-        required=False,
-        help="The left endpoint of the interval.",
-    )
-    parser.add_argument(
-        name="b",
-        type=float,
-        required=False,
-        help="The right endpoint of the interval.",
-    )
-    parser.add_argument(
-        name="--f",
-        type=str,
+        "a",
+        nargs='?',
         default=None,
+        type=float,
+        help="The left endpoint of the interval."
+    )
+    parser.add_argument(
+        "b",
+        nargs='?',
+        default=None,
+        type=float,
+        help="The right endpoint of the interval."
+    )
+    parser.add_argument(
+        "--function",
+        nargs='?',
+        default=None,
+        type=str,
         help="A function continuous on the endpoints a and b."
     )
     parser.add_argument(
-        name="--tol",
-        type=float,
+        "--tol",
+        nargs='?',
         default=1e-6,
-        help="The tolerance for the function.",
+        type=float,
+        help="The tolerance for the function."
     )
     parser.add_argument(
-        name="--n0",
-        type=int,
+        "--n0",
+        nargs='?',
         default=100,
-        help="The maximum number of iterations.",
+        type=int,
+        help="The maximum number of iterations."
     )
     parser.add_argument(
-        name="--input_file",
+        "--input_file",
+        nargs='?',
+        default=None,
         type=argparse.FileType('r'),
-        default=None,
-        help="The name of the input file.",
+        help="The name of the input file."
     )
     parser.add_argument(
-        name="--output_file",
+        "--output_file",
+        nargs='?',
+        default=None,
         type=argparse.FileType('w'),
-        default=None,
-        help="The name of the output file.",
+        help="The name of the output file."
     )
     parser.add_argument(
-        name="--table",
-        type=bool,
+        "--table_output",
         action="store_true",
-        default=False,
-        help="Flag for table output.",
+        help="Flag for table output."
     )
 
     args = parser.parse_args()
 
-    if args.f:
-        f = lambda: eval(args.f)
+    if args.function:
+        function = lambda x: eval(args.function)
     else:
-        f = func
+        function = predefined_function
 
-    if args.file_input:
-        params = parse_file_input(args.file_input)
+    if args.input_file:
+        if args.a or args.b:
+            raise IOError("If an input file has been defined, no other input parameters must be defined.")
+        params = parse_file_input(args.input_file)
         a, b, tol, n0 = params["a"], params["b"], params["tol"], params["n0"]
     else:
-        if not args.a or not args.b:
-            raise IOError("If an input file has not been defined, the endpoints must be input.")
+        if args.a is None or args.b is None:
+            raise IOError("If an input file has not been defined, the endpoints must be specified as arguments.")
         a, b, tol, n0 = args.a, args.b, args.tol, args.n0
 
-    check_input_params(f, a, b, tol, n0)
+    check_input_params(function, a, b, tol, n0)
 
     if args.output_file:
         args.output_file.write("This is the Bisection Algorithm.\n")
-        p: float = bisect(
-            function=f, a=a, b=b, tol=tol, n0=n0, file=args.output_file, table_output=True
+        _ = bisect(
+            function=function, a=a, b=b, tol=tol, n0=n0, file=args.output_file, table_output=True
         )
-        args.output_file.write("p = {:.10f}".format(p))
         args.output_file.close()
     else:
         print("This is the Bisection Algorithm.")
-        p: float = bisect(
-            function=f, a=a, b=b, tol=tol, n0=n0, file=None, table_output=args.table_output
+        _ = bisect(
+            function=function, a=a, b=b, tol=tol, n0=n0, file=None, table_output=args.table_output
         )
-        print("p = {:.10f}".format(p))
 
 
 if __name__ == "__main__":

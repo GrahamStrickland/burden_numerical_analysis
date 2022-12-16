@@ -18,7 +18,7 @@ def bisect(function: Callable[[float], float],
         if not file:
             print(output_string)
         else:
-            file.write(output_string)
+            file.write(output_string + '\n')
 
     # STEP 1: set iterator
     i: int = 1
@@ -45,6 +45,8 @@ def bisect(function: Callable[[float], float],
                 Number of iterations = {}
                 TOL = {}
                 """.format(p, f_p, i, tol))
+            if table_output:
+                output_string = '-' * 80 + '\n' + output_string
             if not file:
                 print(output_string)
             else:
@@ -66,11 +68,13 @@ def bisect(function: Callable[[float], float],
         Method failed after {} iterations with approximation {:.10f}
         and f(P) = {:.10f} not within tolerance {}.
         """.format(n0, p, f_p, tol))
+    if table_output:
+        output_string = '-' * 80 + '\n' + output_string
     if not file:
         print(output_string)
     else:
         file.write(output_string)
-        file.close()
+    return None
 
 
 def row_output(n: int, a: float, b: float, p: float, f_p: float,
