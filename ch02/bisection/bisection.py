@@ -74,7 +74,7 @@ def bisect(function: Callable[[float], float],
         print(output_string)
     else:
         file.write(output_string)
-    return None
+    return p
 
 
 def row_output(n: int, a: float, b: float, p: float, f_p: float,
