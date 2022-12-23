@@ -17,13 +17,13 @@ def parse_file_input(input_file: TextIO) -> dict:
     a: float = float(vals[0])
     b: float = float(vals[1])
     tol: float = float(vals[2])
-    n0: int = int(vals[3])
+    n_0: int = int(vals[3])
 
-    return {"a": a, 'b': b, 'tol': tol, 'n0': n0}
+    return {"a": a, 'b': b, 'tol': tol, 'n_0': n_0}
 
 
 def check_input_params(f: Callable[[float], float],
-                       a: float, b: float, tol: float, n0: int) -> None:
+                       a: float, b: float, tol: float, n_0: int) -> None:
     """Check that the endpoints are not the same, the function values at the
     endpoints f(a) and f(b) have opposite signs, the tolerance is positive,
     and the number of iterations is positive.
@@ -48,8 +48,8 @@ def check_input_params(f: Callable[[float], float],
     if tol <= 0.0:
         raise IOError("Tolerance must be a positive number.")
 
-    # check that N0 > 0
-    if n0 <= 0:
+    # check that n_0 > 0
+    if n_0 <= 0:
         raise IOError("Maximum number of iterations must be a positive integer.")
 
 
@@ -85,7 +85,7 @@ def main():
         help="The tolerance for the function."
     )
     parser.add_argument(
-        "--n0",
+        "--n_0",
         nargs='?',
         default=100,
         type=int,
@@ -122,24 +122,24 @@ def main():
         if args.a or args.b:
             raise IOError("If an input file has been defined, no other input parameters must be defined.")
         params = parse_file_input(args.input_file)
-        a, b, tol, n0 = params["a"], params["b"], params["tol"], params["n0"]
+        a, b, tol, n_0 = params["a"], params["b"], params["tol"], params["n_0"]
     else:
         if args.a is None or args.b is None:
             raise IOError("If an input file has not been defined, the endpoints must be specified as arguments.")
-        a, b, tol, n0 = args.a, args.b, args.tol, args.n0
+        a, b, tol, n_0 = args.a, args.b, args.tol, args.n_0
 
-    check_input_params(function, a, b, tol, n0)
+    check_input_params(function, a, b, tol, n_0)
 
     if args.output_file:
         args.output_file.write("This is the Bisection Algorithm.\n")
         _ = bisect(
-            function=function, a=a, b=b, tol=tol, n0=n0, file=args.output_file, table_output=True
+            function=function, a=a, b=b, tol=tol, n_0=n_0, file=args.output_file, table_output=True
         )
         args.output_file.close()
     else:
         print("This is the Bisection Algorithm.")
         _ = bisect(
-            function=function, a=a, b=b, tol=tol, n0=n0, file=None, table_output=args.table_output
+            function=function, a=a, b=b, tol=tol, n_0=n_0, file=None, table_output=args.table_output
         )
 
 
