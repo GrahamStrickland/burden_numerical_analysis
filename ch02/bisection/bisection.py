@@ -4,9 +4,10 @@ from collections.abc import Callable
 from typing import TextIO
 
 
-def bisect(function: Callable[[float], float],
-           a: float, b: float, tol: float, n_0: int,
-           file: TextIO = None, table_output: bool = False) -> float:
+def bisect(
+        function: Callable[[float], float], a: float, b: float, tol: float, n_0: int,
+        file: TextIO = None, table_output: bool = False
+) -> float:
     """To find a solution to f(x) = 0 given the continuous function f on the interval
     [a, b], where f(a) and f(b) have opposite signs:
     INPUT endpoints a, b; tolerance tol; maximum number of iterations n_0.
@@ -38,7 +39,7 @@ def bisect(function: Callable[[float], float],
             row_output(i, a, b, p, f_p, file)
 
         # STEP 4: procedure completed successfully
-        if abs(f_p) == 0.0 or c < tol:
+        if (abs(f_p) == 0.0 or c < tol) and not isinstance(f_p, complex):
             output_string = cleandoc("""\
                 Approximate solution P = {:.10f}
                 f(P) = {:.10}

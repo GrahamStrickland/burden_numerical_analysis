@@ -4,9 +4,10 @@ from collections.abc import Callable
 from typing import TextIO
 
 
-def fixed_point(function: Callable[[float], float],
-                p_0: float, tol: float, n_0: int,
-                file: TextIO = None, table_output: bool = False) -> float:
+def fixed_point(
+        function: Callable[[float], float], p_0: float, tol: float, n_0: int,
+        file: TextIO = None, table_output: bool = False
+) -> float:
     """To find a solution to p = g(p) given an initial approximation p_0:
     INPUT initial approximation p_0; tolerance TOL; maximum number of iterations n_0.
     OUTPUT approximate solution p or message of failure.
@@ -33,7 +34,7 @@ def fixed_point(function: Callable[[float], float],
             row_output(i, p, file)
       
         # STEP 4: the procedure was successful
-        if abs(p - p_0) < tol:
+        if abs(p - p_0) < tol and not isinstance(p, complex):
             output_string = cleandoc("""\
             \nApproximate solution P = {:.10f}\nNumber of iterations = {}\nTOL = {}\n
             """).format(p, i, tol)
