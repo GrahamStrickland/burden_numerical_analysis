@@ -28,18 +28,22 @@ def bisect(
     f_p: float = 0.0
 
     # STEP 2: while i < n_0 do steps 3-6
-    while i <= n_0:
+    while i <= n_0 and not isinstance(f_p, complex):
         # STEP 3: compute p_i
         c: float = (b - a) / 2.0
         p = a + c
-        f_p = function(p)
+        try:
+            f_p = function(p)
+        except ZeroDivisionError as e:
+            print(e)
+            return None
 
         # if table output selected, output row
         if table_output:
             row_output(i, a, b, p, f_p, file)
 
         # STEP 4: procedure completed successfully
-        if (abs(f_p) == 0.0 or c < tol) and not isinstance(f_p, complex):
+        if abs(f_p) == 0.0 or c < tol:
             output_string = cleandoc("""\
                 Approximate solution P = {:.10f}
                 f(P) = {:.10}

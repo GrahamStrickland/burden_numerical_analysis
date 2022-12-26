@@ -28,7 +28,11 @@ def fixed_point(
     # STEP 2: do Steps 3-6
     while i <= n_0 and not isinstance(p, complex):
         # STEP 3: compute p_i
-        p = function(p_0)
+        try:
+            p = function(p_0)
+        except ZeroDivisionError as e:
+            print(e)
+            return None
 
         if table_output:
             row_output(i, p, file)

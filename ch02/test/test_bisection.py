@@ -12,9 +12,9 @@ def test_bisection_polynomial() -> None:
     a: float = 1.0
     b: float = 2.0
     tol: float = 1e-4
-    n0: int = 15
+    n_0: int = 15
 
-    obs = bisect(func, a, b, tol, n0)
+    obs = bisect(func, a, b, tol, n_0)
     exp: float = 1.365112305
 
     assert obs == approx(exp, abs=tol)
@@ -27,9 +27,9 @@ def test_bisection_trig_polynomial() -> None:
     a: float = 0.0
     b: float = 1.0
     tol: float = 1e-3
-    n0: int = 3
+    n_0: int = 3
 
-    obs = bisect(func, a, b, tol, n0)
+    obs = bisect(func, a, b, tol, n_0)
     exp: float = 0.625
 
     assert obs == approx(exp, abs=tol)
@@ -42,9 +42,9 @@ def test_bisection_polynomial2() -> None:
     a: float = 0.0
     b: float = 1.0
     tol: float = 1e-2
-    n0: int = 10
+    n_0: int = 10
 
-    obs = bisect(func, a, b, tol, n0)
+    obs = bisect(func, a, b, tol, n_0)
     exp: float = 0.5859
 
     assert obs == approx(exp, abs=tol)
@@ -57,9 +57,9 @@ def test_bisection_polynomial3() -> None:
     a: float = 1.0
     b: float = 3.2
     tol: float = 1e-2
-    n0: int = 10
+    n_0: int = 10
 
-    obs = bisect(func, a, b, tol, n0)
+    obs = bisect(func, a, b, tol, n_0)
     exp: float = 3.002
 
     assert obs == approx(exp, abs=tol)
@@ -72,9 +72,9 @@ def test_bisection_polynomial4() -> None:
     a: float = 3.2
     b: float = 4.0
     tol: float = 1e-2
-    n0: int = 10
+    n_0: int = 10
 
-    obs = bisect(func, a, b, tol, n0)
+    obs = bisect(func, a, b, tol, n_0)
     exp: float = 3.419
 
     assert obs == approx(exp, abs=tol)
@@ -87,9 +87,9 @@ def test_bisection_power() -> None:
     a: float = 0.0
     b: float = 1.0
     tol: float = 1e-5
-    n0: int = 20
+    n_0: int = 20
 
-    obs = bisect(func, a, b, tol, n0)
+    obs = bisect(func, a, b, tol, n_0)
     exp: float = 0.641182
 
     assert obs == approx(exp, abs=tol)
@@ -102,9 +102,9 @@ def test_bisection_exponential() -> None:
     a: float = 0.0
     b: float = 1.0
     tol: float = 1e-5
-    n0: int = 20
+    n_0: int = 20
 
-    obs = bisect(func, a, b, tol, n0)
+    obs = bisect(func, a, b, tol, n_0)
     exp: float = 0.257530
 
     assert obs == approx(exp, abs=tol)
@@ -117,9 +117,9 @@ def test_bisection_trig_polynomial2() -> None:
     a: float = -3.0
     b: float = -2.0
     tol: float = 1e-5
-    n0: int = 20
+    n_0: int = 20
 
-    obs = bisect(func, a, b, tol, n0)
+    obs = bisect(func, a, b, tol, n_0)
     exp: float = -2.191307
 
     assert obs == approx(exp, abs=tol)
@@ -132,9 +132,9 @@ def test_bisection_trig_polynomial3() -> None:
     a: float = -1.0
     b: float = 0.0
     tol: float = 1e-5
-    n0: int = 20
+    n_0: int = 20
 
-    obs = bisect(func, a, b, tol, n0)
+    obs = bisect(func, a, b, tol, n_0)
     exp: float = -0.798164
 
     assert obs == approx(exp, abs=tol)
@@ -147,9 +147,9 @@ def test_bisection_trig_polynomial4() -> None:
     a: float = 0.2
     b: float = 0.3
     tol: float = 1e-5
-    n0: int = 20
+    n_0: int = 20
 
-    obs = bisect(func, a, b, tol, n0)
+    obs = bisect(func, a, b, tol, n_0)
     exp: float = 0.297528
 
     assert obs == approx(exp, abs=tol)
@@ -162,9 +162,9 @@ def test_bisection_trig_polynomial5() -> None:
     a: float = 1.2
     b: float = 1.3
     tol: float = 1e-5
-    n0: int = 20
+    n_0: int = 20
 
-    obs = bisect(func, a, b, tol, n0)
+    obs = bisect(func, a, b, tol, n_0)
     exp: float = 1.256622
 
     assert obs == approx(exp, abs=tol)
