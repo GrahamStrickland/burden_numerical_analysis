@@ -105,7 +105,7 @@ def main():
 
     if args.output_file:
         print("")
-        args.output_file.write("This is the Fixed-point Iteration Algorithm.")
+        args.output_file.write("This is the Fixed-point Iteration Algorithm.\n")
         _ = fixed_point(
             function=function, p_0=p_0, tol=tol, n_0=n_0, file=args.output_file, table_output=True
         )
