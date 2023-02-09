@@ -8,7 +8,7 @@ def eulers_method(
         function: Callable[float, float], a: float, b: float, alpha: float,
         n: int, file: TextIO = None, table_output: bool = False
 ) -> list[float]:
-    """To approximate the soluution of the initial-value problem y' = f(t, y),
+    """To approximate the solution of the initial-value problem y' = f(t, y),
     a <= t <= b, y(a) = alpha, at (N+1) equally spaced numbers in the interval [a, b]:
     INPUT endpoints a, b; integer N; initial condition alpha.
     OUTPUT approximation w to y at the (N+1) values of t.

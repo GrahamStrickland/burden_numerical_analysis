@@ -22,7 +22,7 @@ def parse_file_input(input_file: TextIO) -> dict:
     return {"a": a, 'b': b, 'alpha': alpha, 'n': n}
 
 
-def check_input_params(a: float, b: float, n: int) -> None:
+def check_input_params(a: float, b: float, n: int) -> list[float, float, int]:
     """Check that the endpoints are not the same, the function values at the
     endpoints f(a) and f(b) have opposite signs, the tolerance is positive,
     and the number of iterations is positive.
@@ -39,6 +39,7 @@ def check_input_params(a: float, b: float, n: int) -> None:
     if n <= 0:
         raise IOError("Maximum number of iterations must be a positive integer.")
 
+    return [a, b, n]
 
 def main():
     parser = argparse.ArgumentParser(description=eulers_method.__doc__)
@@ -101,7 +102,7 @@ def main():
     args = parser.parse_args()
 
     if args.function:
-        function = lambda t, y: eval(args.function)
+        function = lambda t, y: eval(args.function, t, y)
     else:
         function = predefined_function
 
