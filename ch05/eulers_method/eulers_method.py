@@ -1,25 +1,27 @@
 #!/usr/bin/env python3
-from inspect import cleandoc
 from collections.abc import Callable
 from typing import TextIO
 
 
 def eulers_method(
-        function: Callable[float, float], a: float, b: float, alpha: float,
-        n: int, file: TextIO = None, table_output: bool = False
+        function: Callable[[float, ...], float], a: float, b: float, alpha: float,
+        n: int, file: TextIO = None, solution: Callable[[float], float] = None
 ) -> list[float]:
     """To approximate the solution of the initial-value problem y' = f(t, y),
     a <= t <= b, y(a) = alpha, at (N+1) equally spaced numbers in the interval [a, b]:
     INPUT endpoints a, b; integer N; initial condition alpha.
     OUTPUT approximation w to y at the (N+1) values of t.
     """
-    if table_output:
-        # output table heading
-        output_string = f"{'-'*80}\n\t\tt_i\t\tw_i\n{'-'*80}"
-        if not file:
-            print(output_string)
-        else:
-            file.write(output_string + '\n')
+    # output table heading
+    if solution:
+        output_string = f"{'-'*76}\nt_i\t\tw_i\t\t\ty_i=y(t_i)\t\t|y_i - w_i|\n{'-'*76}"
+    else:
+        output_string = f"{'-'*28}\nt_i\t\tw_i\n{'-'*28}"
+
+    if not file:
+        print(output_string)
+    else:
+        file.write(output_string + '\n')
 
     # STEP 1:
     i: int = 1
@@ -28,9 +30,8 @@ def eulers_method(
     w: float = alpha
     solutions: list[float] = [w]
 
-    # if table output selected, output row
-    if table_output:
-        row_output(t, w, file)
+    # output row
+    row_output(t, w, file, solution)
 
     # STEP 2: for i = 1, 2, ..., N do steps 3, 4
     while i <= n and not isinstance(w, complex):
@@ -43,26 +44,34 @@ def eulers_method(
             print(e)
             return []
 
-        # STEP 4: if table output selected, output row
-        if table_output:
-            row_output(t, w, file)
+        # STEP 4: output row
+        row_output(t, w, file, solution)
 
         i += 1
 
     # STEP 5: stop
-    if table_output:
-        output_string = '-' * 80 + '\n'
-        if not file:
-            print(output_string)
-        else:
-            file.write(output_string)
+    if solution:
+        output_string = '-' * 76 + '\n'
+    else:
+        output_string = '-' * 28 + '\n'
+
+    if not file:
+        print(output_string)
+    else:
+        file.write(output_string)
     return solutions
 
 
-def row_output(t_i: float, w_i: float, file: TextIO) -> None:
+def row_output(
+        t_i: float, w_i: float, file: TextIO, solution: Callable[[float], float] = None
+) -> None:
     """Function to output row of table."""
-    string = "{}\t\t{:.10f}\t".format(t_i, w_i)
-    if not file:
-        print(string)
+    if solution:
+        output = "{:.1f}\t\t{:.10f}\t\t{:.10f}\t\t{:.10f}".format(t_i, w_i, solution(t_i), abs(solution(t_i) - w_i))
     else:
-        file.write(string)
+        output = "{:.1f}\t\t{:.10f}".format(t_i, w_i)
+
+    if not file:
+        print(output)
+    else:
+        file.write(output + '\n')

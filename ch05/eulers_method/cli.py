@@ -41,6 +41,7 @@ def check_input_params(a: float, b: float, n: int) -> list[float, float, int]:
 
     return [a, b, n]
 
+
 def main():
     parser = argparse.ArgumentParser(description=eulers_method.__doc__)
 
@@ -94,17 +95,23 @@ def main():
         help="The name of the output file."
     )
     parser.add_argument(
-        "--table_output",
-        action="store_true",
-        help="Flag for table output."
+        "--solution",
+        nargs='?',
+        default=None,
+        type=str,
+        help="The solution y(t) of the given DE."
     )
 
     args = parser.parse_args()
 
     if args.function:
-        function = lambda t, y: eval(args.function, t, y)
+        function = lambda t, y: eval(args.function)
     else:
         function = predefined_function
+
+    solution = None
+    if args.solution:
+        solution = lambda t: eval(args.solution)
 
     if args.input_file:
         if args.a or args.b:
@@ -121,13 +128,13 @@ def main():
     if args.output_file:
         args.output_file.write("This is Euler's Method.\n")
         _ = eulers_method(
-            function=function, a=a, b=b, alpha=alpha, n=n, file=args.output_file, table_output=True
+            function=function, a=a, b=b, alpha=alpha, n=n, file=args.output_file, solution=solution
         )
         args.output_file.close()
     else:
         print("This is Euler's Method.")
         _ = eulers_method(
-            function=function, a=a, b=b, alpha=alpha, n=n, file=None, table_output=args.table_output
+            function=function, a=a, b=b, alpha=alpha, n=n, file=None, solution=solution
         )
 
 
