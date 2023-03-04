@@ -3,6 +3,10 @@ from collections.abc import Callable
 from typing import TextIO
 
 
+LONG_BORDER = 76
+SHORT_BORDER = 28
+
+
 def eulers_method(
         function: Callable[[float, ...], float], a: float, b: float, alpha: float,
         n: int, file: TextIO = None, solution: Callable[[float], float] = None
@@ -14,9 +18,9 @@ def eulers_method(
     """
     # output table heading
     if solution:
-        output_string = f"{'-'*76}\nt_i\t\tw_i\t\t\ty_i=y(t_i)\t\t|y_i - w_i|\n{'-'*76}"
+        output_string = f"{'-'*LONG_BORDER}\nt_i\t\tw_i\t\t\ty_i=y(t_i)\t\t|y_i - w_i|\n{'-'*LONG_BORDER}"
     else:
-        output_string = f"{'-'*28}\nt_i\t\tw_i\n{'-'*28}"
+        output_string = f"{'-'*SHORT_BORDER}\nt_i\t\tw_i\n{'-'*SHORT_BORDER}"
 
     if not file:
         print(output_string)
@@ -28,7 +32,7 @@ def eulers_method(
     h: float = (b - a) / n
     t: float = a
     w: float = alpha
-    solutions: list[float] = [w]
+    solutions = [w]
 
     # output row
     row_output(t, w, file, solution)
@@ -51,9 +55,9 @@ def eulers_method(
 
     # STEP 5: stop
     if solution:
-        output_string = '-' * 76 + '\n'
+        output_string = '-' * LONG_BORDER + '\n'
     else:
-        output_string = '-' * 28 + '\n'
+        output_string = '-' * SHORT_BORDER + '\n'
 
     if not file:
         print(output_string)

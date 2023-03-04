@@ -14,17 +14,16 @@ def predefined_function(t: float, y: float) -> float:
 def parse_file_input(input_file: TextIO) -> dict:
     """Parse the endpoints, tolerance, and maximum number of inputs supplied in a CSV file."""
     vals = input_file.read().split(',')
-    a: float = float(vals[0])
-    b: float = float(vals[1])
-    alpha: float = float(vals[2])
-    n: int = int(vals[3])
+    a = float(vals[0])
+    b = float(vals[1])
+    alpha = float(vals[2])
+    n = int(vals[3])
 
     return {"a": a, 'b': b, 'alpha': alpha, 'n': n}
 
 
 def check_input_params(a: float, b: float, n: int) -> list[float, float, int]:
-    """Check that the endpoints are not the same, the function values at the
-    endpoints f(a) and f(b) have opposite signs, the tolerance is positive,
+    """Check that the endpoints are not the same, the tolerance is positive,
     and the number of iterations is positive.
     """
     # check that b != a
@@ -81,14 +80,14 @@ def main():
         help="The number of mesh points at which the solution is to be calculated."
     )
     parser.add_argument(
-        "--input_file",
+        "--input-file",
         nargs='?',
         default=None,
         type=argparse.FileType('r'),
         help="The name of the input file."
     )
     parser.add_argument(
-        "--output_file",
+        "--output-file",
         nargs='?',
         default=None,
         type=argparse.FileType('w'),
