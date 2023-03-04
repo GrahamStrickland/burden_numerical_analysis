@@ -1,0 +1,38 @@
+# Ignore all
+*
+
+# Unignore all with extensions
+!*.*
+
+# Unignore all dirs
+!*/
+
+# IntelliJ files
+*.iml
+*.project
+.idea
+
+# VSCode files
+.DS_Store
+*.code-workspace
+*.vscode
+
+# Eclipse files
+.classpath
+.settings
+
+# Object files and debugging files
+*.o
+*.dSYM
+.gdb_history
+
+# Vim files
+*.swp
+$HOME
+
+# Python files
+/venv
+.coverage
+.pytest_cache
+__pycache__/
+*.pyc
