@@ -7,7 +7,7 @@ LONG_BORDER = 76
 SHORT_BORDER = 28 
 
 
-def adams_fourth_order_predictor_corrector(
+def adams_fourth_order(
         function: Callable[[float, ...], float], a: float, b: float, alpha: float,
         n: int, file: TextIO = None, solution: Callable[[float], float] = None
 ) -> list[float]:
@@ -93,7 +93,7 @@ def adams_fourth_order_predictor_corrector(
     return w 
 
 def row_output(
-        i: int, t: list, w: list, file: TextIO,
+        i: int, t: list[float], w: list[float], file: TextIO,
         solution: Callable[[float], float] = None
 ) -> None:
     """Function to output row of table."""

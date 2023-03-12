@@ -3,7 +3,7 @@ import argparse
 import math
 from typing import TextIO
 
-from adams_fourth_order_predictor_corrector import adams_fourth_order_predictor_corrector 
+from adams_fourth_order import adams_fourth_order 
 
 
 def predefined_function(t: float, y: float) -> float:
@@ -42,7 +42,7 @@ def check_input_params(a: float, b: float, n: int) -> list[float, float, int]:
 
 
 def main():
-    parser = argparse.ArgumentParser(description=adams_fourth_order_predictor_corrector.__doc__)
+    parser = argparse.ArgumentParser(description=adams_fourth_order.__doc__)
 
     parser.add_argument(
         "a",
@@ -128,7 +128,7 @@ def main():
         args.output_file.write(
             "This is the Adams Fourth-Order Predictor-Corrector method.\n"
             )
-        _ = adams_fourth_order_predictor_corrector(
+        _ = adams_fourth_order(
             function=function, a=a, b=b, alpha=alpha, n=n, file=args.output_file, solution=solution
         )
         args.output_file.close()
@@ -136,7 +136,7 @@ def main():
         print(
             "This is the Adams Fourth-Order Predictor-Corrector method.\n"
             )
-        _ = adams_fourth_order_predictor_corrector(
+        _ = adams_fourth_order(
             function=function, a=a, b=b, alpha=alpha, n=n, file=None, solution=solution
         )
 
