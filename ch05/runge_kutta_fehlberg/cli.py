@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import argparse
-from collections.abc import Callable
 import math
 from typing import TextIO
 
