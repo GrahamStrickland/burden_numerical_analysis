@@ -28,7 +28,7 @@ def parse_file_input(input_file: TextIO) -> dict:
 def check_input_params(
         a: float, b: float, tol: float, hmax: float, hmin: float
                        ) -> list[float, float, int]:
-    """Check that the endpoints are not the same, the the tolerance is positive,
+    """Check that the endpoints are not the same, the tolerance is positive,
     and hmax > hmin.
     """
     if b == a:
