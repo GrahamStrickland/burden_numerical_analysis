@@ -70,9 +70,9 @@ def runge_kutta_fehlberg(
             if r <= tol:
                 # STEP 6:
                 t = t + h   # Approximation accepted
-                w = w + ((25./216.)*k_1 + (1408./2565.)*k_3 + 
-                (2197./4104.)*k_4 - (1./5.)*k_5
-                )
+                w = w + ((25./216.)*k_1 + (1408./2565.)*k_3 +
+                         (2197./4104.)*k_4 - (1./5.)*k_5
+                         )
 
                 # STEP 7:
                 row_output(t, w, h, file=file, solution=solution)
