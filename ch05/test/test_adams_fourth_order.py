@@ -33,7 +33,7 @@ def test_adams_fourth_order2() -> None:
     obs = adams_fourth_order(
         function=func, a=a, b=b, alpha=alpha, n=n
     )
-    exp = [.0269059, .1510468, .4966479, 1.3408657, 3.2450881]
+    exp = [alpha, .0269059, .1510468, .4966479, 1.3408657, 3.2450881]
 
     assert obs == approx(exp, abs=1e-7)
 
@@ -50,7 +50,7 @@ def test_adams_fourth_order3() -> None:
     obs = adams_fourth_order(
         function=func, a=a, b=b, alpha=alpha, n=n
     )
-    exp = [1.366661, 1.6857079, 1.9749941, 2.2446995, 2.5003083]
+    exp = [alpha, 1.366661, 1.6857079, 1.9749941, 2.2446995, 2.5003083]
 
     assert obs == approx(exp, abs=1e-7)
 
@@ -67,7 +67,7 @@ def test_adams_fourth_order4() -> None:
     obs = adams_fourth_order(
         function=func, a=a, b=b, alpha=alpha, n=n
     )
-    exp = [2.6187787, 3.2710491, 3.95199, 4.6579968, 5.3862715]
+    exp = [alpha, 2.6187787, 3.2710491, 3.95199, 4.6579968, 5.3862715]
 
     assert obs == approx(exp, abs=1e-7)
 
@@ -84,7 +84,7 @@ def test_adams_fourth_order5() -> None:
     obs = adams_fourth_order(
         function=func, a=a, b=b, alpha=alpha, n=n
     )
-    exp = [1.252935, 1.5712383, 1.8751097, 2.0794418, 2.1192575]
+    exp = [alpha, 1.252935, 1.5712383, 1.8751097, 2.0796618, 2.1192575]
 
     assert obs == approx(exp, abs=1e-7)
 
@@ -122,7 +122,7 @@ def test_adams_fourth_order7() -> None:
     obs = adams_fourth_order(
         function=func, a=a, b=b, alpha=alpha, n=n
     )
-    exp = [.4896842, 1.1994245, 2.2134701, 4.6784144, 5.8739518]
+    exp = [.4896842, 1.1994245, 2.2134701, 3.6784144, 5.8739518]
 
     assert obs[2] == approx(exp[0], abs=1e-7)
     assert obs[4] == approx(exp[1], abs=1e-7)
@@ -143,7 +143,7 @@ def test_adams_fourth_order8() -> None:
     obs = adams_fourth_order(
         function=func, a=a, b=b, alpha=alpha, n=n
     )
-    exp = [-1.5378788, -1.2384134, -1.0948609, -1.3059757]
+    exp = [-1.5378788, -1.2384134, -1.0948609, -1.0359757]
 
     assert obs[5] == approx(exp[0], abs=1e-7)
     assert obs[10] == approx(exp[1], abs=1e-7)
@@ -153,7 +153,7 @@ def test_adams_fourth_order8() -> None:
 
 def test_adams_fourth_order9() -> None:
     def func(t: float, y: float) -> float:
-        return (t+2.*t**3)*y**3 - t*y
+        return -5.*y + 5.*t**2 + 2.*t
 
     a = 0.
     b = 1.
