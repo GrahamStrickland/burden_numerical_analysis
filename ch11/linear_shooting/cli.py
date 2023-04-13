@@ -87,14 +87,14 @@ def main():
     parser.add_argument(
         "--hmax",
         nargs='?',
-        default=.25,
+        default=0.25,
         type=float,
         help="The maximum step size."
     )
     parser.add_argument(
         "--hmin",
         nargs='?',
-        default=.01,
+        default=0.01,
         type=float,
         help="The minimum step size."
     )

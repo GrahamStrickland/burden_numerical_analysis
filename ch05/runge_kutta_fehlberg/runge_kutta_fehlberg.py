@@ -137,3 +137,4 @@ def row_output(
         print(output)
     else:
         file.write(output + '\n')
+
