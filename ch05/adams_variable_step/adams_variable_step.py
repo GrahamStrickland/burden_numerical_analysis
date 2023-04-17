@@ -63,7 +63,7 @@ def adams_variable_step(
                                       5.*function(t[i-2], w[i-2]) +
                                       function(t[i-3], w[i-3])
                                       )
-            sigma = 19. * (abs(w_c - w_p)/(270.*h))
+            sigma = (19./(270.*h)) * abs(w_c - w_p)
 
             # STEP 6: If sigma <= TOL then do Steps 7-16 (result accepted)
             #           else do Steps 17-19 (result rejected)
