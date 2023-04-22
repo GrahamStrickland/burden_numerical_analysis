@@ -91,7 +91,10 @@ def adams_variable_step(
                     #           decrease h to include b as a mesh point
                     if sigma <= .1*tol or t[i-1] + h > b:
                         # STEP 12:
-                        q = (tol/(2.*sigma))**(.25)
+                        if sigma <= 1.0e-20:
+                            q = 4.
+                        else:
+                            q = math.exp(.25*math.log(.5*tol/sigma)) 
 
                         # STEP 13:
                         if q > 4.:
@@ -167,7 +170,7 @@ def rk4(
         k_3 = h * function(x[j-1] + h/2., v[j-1] + k_2/2.)
         k_4 = h * function(x[j-1] + h, v[j-1] + k_3)
         v[j] = v[j-1] + (k_1 + 2.*k_2 + 2.*k_3 + k_4)/6.
-        x[j] = x[0] + j*h
+        x[j] = x[j-1] + h
 
     return (v, x)
 
