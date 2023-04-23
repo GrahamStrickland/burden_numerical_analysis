@@ -91,7 +91,7 @@ def adams_variable_step(
                     #           decrease h to include b as a mesh point
                     if sigma <= .1*tol or t[i-1] + h > b:
                         # STEP 12:
-                        if sigma <= 1.0e-20:
+                        if sigma <= 1.0e-20:    # For underflow handling
                             q = 4.
                         else:
                             q = math.exp(.25*math.log(.5*tol/sigma)) 
@@ -156,7 +156,7 @@ def adams_variable_step(
         print(output_string)
     else:
         file.write(output_string)
-    return w[0:i+2] 
+    return w[0:i+1] 
 
 
 def rk4(
