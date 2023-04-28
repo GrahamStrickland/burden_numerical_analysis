@@ -58,7 +58,7 @@ def test_adams_variable_step3() -> None:
     a = 2.
     b = 3.
     alpha = 1.
-    tol = 1e-4
+    tol = 1e-5
     hmax = .25
     hmin = .025
 
@@ -81,7 +81,7 @@ def test_adams_variable_step4() -> None:
     a = 1.
     b = 2.
     alpha = 2.
-    tol = 1e-4
+    tol = 1e-5
     hmax = .25
     hmin = .025
 
@@ -103,7 +103,7 @@ def test_adams_variable_step5() -> None:
     a = 0.
     b = 1.
     alpha = 1.
-    tol = 1e-4
+    tol = 1e-5
     hmax = .25
     hmin = .025
 
