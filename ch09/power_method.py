@@ -58,8 +58,12 @@ def power_method(
 
         # STEP 9: Set ERR = ||x - (y/y)_p)||_inf;
         #                     x = y/y_p.
-        err = max(abs(x - (y/y[p])))
-        x = y / y[p]
+        try:
+            err = max(abs(x - (y/y[p])))
+            x = y / y[p]
+        except ZeroDivisionError as e:
+            print(e)
+            return (mu, x)
 
         # STEP 10
         if err < tol:
@@ -69,9 +73,7 @@ def power_method(
         # STEP 11
         k = k + 1
 
-    # STEP 12: OUTPUT('The maximum number of iterations exceeded');
-    #                (The procedure was successful.)
-    #          STOP.
+    # STEP 12: STOP.
     print("The maximum number of iterations exceeded.")
     return (mu, x)
 
