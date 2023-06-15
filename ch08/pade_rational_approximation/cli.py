@@ -24,14 +24,14 @@ def parse_file_input(input_file: TextIO) -> dict:
 
 
 def check_input_params(
-        m: int, n: int, coeffs: list(float)
-                       ) -> list[int, int, list(float)]:
+        m: int, n: int, coeffs: list[float]
+                       ) -> list[int, int, list[float]]:
     """Check that m and n are nonnegative and that the Maclaurin coefficients
     are of order N = m + n."""
     if m < 0 or n < 0:
         raise IOError("m and n must be nonnegative integers.")
 
-    if len(coeffs) != m + n:
+    if coeffs is not None and len(coeffs) != m + n:
         raise IOError(f"Please specify {m + n} Maclaurin coefficients.")
 
     return [m, n, coeffs]

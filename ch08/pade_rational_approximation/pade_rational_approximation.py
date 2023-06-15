@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
 import math
 
+from sympy import Function, Symbol, factorial 
+
 from collections.abc import Callable
 from typing import TextIO
 
 
-LONG_BORDER = 132
-SHORT_BORDER = 84
-
-
 def pade_rational_approximation(
-        function: Callable(float), m: int, n: int, 
-        maclaurin_coeffs: list(float) = None, file: TextIO = None
+        function: Callable, m: int, n: int, 
+        maclaurin_coeffs: list[float] = None, file: TextIO = None
 ) -> list[list[float]]:
     """To obtain the rational approximation r(x) = p(x)/q(x) 
     = sum_i=0^n p_ix^i / sum_j=0^m q_j x^j for a given function f(x):
@@ -19,10 +17,13 @@ def pade_rational_approximation(
     OUTPUT coefficients q_0, q_1, ..., q_m and p_0, p_1, ..., p_n."""
 
     # STEP 1: Set N = m + n.
+    max_degree = m + n
 
     # STEP 2: For i = 0, 1, ..., N set a_i = f^(i)(0)/i!.
     #         (The coefficients of the Maclaurin polynomial are a_0, ..., a_N,
     #         which could be input instead of calculated.)
+    a = get_maclaurin_coeffs(max_degree, function)
+    print(a)
 
     # STEP 3: Set q_0 = 1;
     #             p_0 = a_0.
@@ -82,3 +83,16 @@ def pade_rational_approximation(
 
     # STEP 23: OUTPUT(q_0, q_1, ..., q_m, p_0, p_1, ..., p_n);
     #          STOP. (The procedure was successful.)
+
+
+def get_maclaurin_coeffs(n: int, function: Callable) -> list[float]:
+    x = Symbol('x')
+    f = Function('function')
+    coeffs = []
+    
+    for i in range(n + 1):
+        derivative = f(x).diff(x, i)
+        coefficient = derivative.subs(x, 0) / factorial(i)
+        coeffs.append(float(coefficient))
+    
+    return coeffs
