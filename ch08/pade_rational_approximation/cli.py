@@ -16,25 +16,25 @@ def parse_file_input(input_file: TextIO) -> dict:
     vals = input_file.read().split(',')
     m = int(vals[0])
     n = int(vals[1])
-    coeffs = []
+    maclaurin_coeffs = []
     for i in range(2, len(vals)):
-        coeffs.append(vals[i])
+        maclaurin_coeffs.append(vals[i])
 
-    return {'m': m, 'n': n, 'maclaurin_coeffs': coeffs}
+    return {'m': m, 'n': n, 'maclaurin_coeffs': maclaurin_coeffs}
 
 
 def check_input_params(
-        m: int, n: int, coeffs: list[float]
+        m: int, n: int, maclaurin_coeffs: list[float]
                        ) -> list[int, int, list[float]]:
     """Check that m and n are nonnegative and that the Maclaurin coefficients
     are of order N = m + n."""
     if m < 0 or n < 0:
         raise IOError("m and n must be nonnegative integers.")
 
-    if coeffs is not None and len(coeffs) != m + n:
-        raise IOError(f"Please specify {m + n} Maclaurin coefficients.")
+    if len(maclaurin_coeffs) != m + n + 1:
+        raise IOError(f"Please specify {m + n + 1} Maclaurin coefficients.")
 
-    return [m, n, coeffs]
+    return [m, n, maclaurin_coeffs]
 
 
 def main():
@@ -59,7 +59,14 @@ def main():
         nargs='?',
         default=None,
         type=str,
-        help="A function f(t,y) continuous on the interval [a, b]."
+        help="A function f(x) to be approximated by a rational function."
+    )
+    parser.add_argument(
+        "--maclaurin_coeffs",
+        nargs='+',
+        default=None,
+        type=float,
+        help="The Maclaurin coefficients for the polynomial of degree m+n."
     )
     parser.add_argument(
         "--input-file",
@@ -83,30 +90,32 @@ def main():
     else:
         function = predefined_function
 
-    if args.input_file:
-        if args.m or args.n:
+    if args.input_file is not None:
+        if args.m or args.n or args.maclaurin_coeffs:
             raise IOError(
 """If an input file has been defined, no other input parameters must be defined."""
                 )
         params = parse_file_input(args.input_file)
-        m, n, coeffs = params["m"], params["n"], params["maclaurin_coeffs"]
+        m, n = params["m"], params["n"], 
+        maclaurin_coeffs = params["maclaurin_coeffs"]
     else:
         if args.m is None or args.n is None:
             raise IOError(
-"""If an input file has not been defined, m and n must be specified as arguments."""
+"""If an input file has not been defined, m and n must be specified as arguments,
+along with the Maclaurin coefficients a0, a1, ..., a_(m+n)"""
                 )
         m, n = args.m, args.n
-        coeffs = None
+        maclaurin_coeffs = args.maclaurin_coeffs
 
-    check_input_params(m, n, coeffs)
+    check_input_params(m, n, maclaurin_coeffs)
 
-    if args.output_file:
+    if args.output_file is not None:
         args.output_file.write(
             "This is the Pade Rational Approximation.\n"
                 )
         _ = pade_rational_approximation(
             function=function, m=m, n=n, file=args.output_file, 
-            maclaurin_coeffs=coeffs 
+            maclaurin_coeffs=maclaurin_coeffs 
         )
         args.output_file.close()
     else:
@@ -114,7 +123,8 @@ def main():
             "This is the Pade Rational Approximation."
                 )
         _ = pade_rational_approximation(
-            function=function, m=m, n=n, file=None, maclaurin_coeffs=coeffs 
+            function=function, m=m, n=n, file=None, 
+            maclaurin_coeffs=maclaurin_coeffs 
         )
 
 
