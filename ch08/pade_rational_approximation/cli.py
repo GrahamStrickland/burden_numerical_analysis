@@ -18,7 +18,10 @@ def parse_file_input(input_file: TextIO) -> dict:
     n = int(vals[1])
     maclaurin_coeffs = []
     for i in range(2, len(vals)):
-        maclaurin_coeffs.append(vals[i])
+        try:
+            maclaurin_coeffs.append(float(vals[i]))
+        except ValueError as _:
+            break
 
     return {'m': m, 'n': n, 'maclaurin_coeffs': maclaurin_coeffs}
 
@@ -31,7 +34,7 @@ def check_input_params(
     if m < 0 or n < 0:
         raise IOError("m and n must be nonnegative integers.")
 
-    if len(maclaurin_coeffs) != m + n + 1:
+    if len(maclaurin_coeffs) != m + n:
         raise IOError(f"Please specify {m + n + 1} Maclaurin coefficients.")
 
     return [m, n, maclaurin_coeffs]

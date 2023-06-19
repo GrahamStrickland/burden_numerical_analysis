@@ -6,8 +6,6 @@ from typing import TextIO
 
 import numpy as np
 
-from pdb import set_trace
-
 
 def pade_rational_approximation(
         function: Callable, m: int, n: int, 
