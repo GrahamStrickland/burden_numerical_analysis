@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
-import math
-
-from collections.abc import Callable
 from typing import TextIO
 
 import numpy as np
 
 
 def pade_rational_approximation(
-        function: Callable, m: int, n: int, 
-        maclaurin_coeffs: list[float], file: TextIO = None
+        m: int, n: int, maclaurin_coeffs: list[float], file: TextIO = None
 ) -> list[list[float]]:
     """To obtain the rational approximation r(x) = p(x)/q(x) 
     = sum_i=0^n p_ix^i / sum_j=0^m q_j x^j for a given function f(x):
@@ -18,9 +14,9 @@ def pade_rational_approximation(
 
     # STEP 1: Set N = m + n.
     max_degree = m + n
-    b = np.zeros((max_degree+1, max_degree+1)) 
-    q = np.zeros(m)
-    p = np.zeros(n)
+    b = np.zeros((max_degree, max_degree+2)) 
+    q = np.zeros(m+1)
+    p = np.zeros(n+1)
 
     # STEP 2: For i = 0, 1, ..., N set a_i = f^(i)(0)/i!.
     #         (The coefficients of the Maclaurin polynomial are a_0, ..., a_N,
@@ -50,7 +46,7 @@ def pade_rational_approximation(
 
         # STEP 8: For j = 1, 2, ..., i
         #           if j <= m then set b_i,n+j = -a_i-j.
-        for j in range(i):
+        for j in range(i+1):
             if j < m:
                 b[i][n+j] = -maclaurin_coeffs[i-j]
 
@@ -69,10 +65,10 @@ def pade_rational_approximation(
         #           (Find pivot element.)
         k = 0
         max = 0
-        for j in range(i, max_degree):
+        for j in range(i, max_degree+1):
             if abs(b[j][i]) > max:
                 max = b[j][i]
-        for pivot in range(i, max_degree):
+        for pivot in range(i, max_degree+1):
             if abs(b[pivot][i]) == max:
                 k = pivot
                 break
@@ -128,7 +124,7 @@ def pade_rational_approximation(
     #           set q_i-n = b_i,N+1 - sum_j=n+1^N b_i,j * q_j-n / b_i,i.
     for i in range(max_degree-1, n, -1):
         sum = 0
-        for j in range(n+1, max_degree+1):
+        for j in range(n+1, max_degree):
             sum += b[i][j] * q[j-n]
         try:
             q[i-n] = b[i][max_degree+1] - (sum/b[i][i]) 
@@ -137,9 +133,9 @@ def pade_rational_approximation(
             return []
 
     # STEP 22: For i = n, n-1, ..., 1 set p_i = b_i,N+1 - sum_j=n+1^N b_i,j * q_j-n.
-    for i in range(n, 0, -1):
+    for i in range(n-1, 0, -1):
         sum = 0
-        for j in range(n+1, max_degree):
+        for j in range(n, max_degree):
             sum += b[i][j] * q[j-n] 
             p[i] = b[i][max_degree+1] - sum 
 

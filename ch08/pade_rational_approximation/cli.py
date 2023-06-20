@@ -1,14 +1,8 @@
 #!/usr/bin/env python3
 import argparse
-import math
 from typing import TextIO
 
 from pade_rational_approximation import pade_rational_approximation
-
-
-def predefined_function(x: float) -> float:
-    """Predefined function in case user does not define a function."""
-    return math.exp(-x)
 
 
 def parse_file_input(input_file: TextIO) -> dict:
@@ -34,8 +28,8 @@ def check_input_params(
     if m < 0 or n < 0:
         raise IOError("m and n must be nonnegative integers.")
 
-    if len(maclaurin_coeffs) != m + n:
-        raise IOError(f"Please specify {m + n + 1} Maclaurin coefficients.")
+    if len(maclaurin_coeffs) != m+n+1:
+        raise IOError(f"Please specify {m+n+1} Maclaurin coefficients.")
 
     return [m, n, maclaurin_coeffs]
 
@@ -56,13 +50,6 @@ def main():
         default=None,
         type=int,
         help="The degree of the numerator polynomial."
-    )
-    parser.add_argument(
-        "--function",
-        nargs='?',
-        default=None,
-        type=str,
-        help="A function f(x) to be approximated by a rational function."
     )
     parser.add_argument(
         "--maclaurin_coeffs",
@@ -88,11 +75,6 @@ def main():
 
     args = parser.parse_args()
 
-    if args.function:
-        function = lambda x: eval(args.function)
-    else:
-        function = predefined_function
-
     if args.input_file is not None:
         if args.m or args.n or args.maclaurin_coeffs:
             raise IOError(
@@ -117,8 +99,7 @@ along with the Maclaurin coefficients a0, a1, ..., a_(m+n)"""
             "This is the Pade Rational Approximation.\n"
                 )
         _ = pade_rational_approximation(
-            function=function, m=m, n=n, file=args.output_file, 
-            maclaurin_coeffs=maclaurin_coeffs 
+            m=m, n=n, file=args.output_file, maclaurin_coeffs=maclaurin_coeffs 
         )
         args.output_file.close()
     else:
@@ -126,8 +107,7 @@ along with the Maclaurin coefficients a0, a1, ..., a_(m+n)"""
             "This is the Pade Rational Approximation."
                 )
         _ = pade_rational_approximation(
-            function=function, m=m, n=n, file=None, 
-            maclaurin_coeffs=maclaurin_coeffs 
+            m=m, n=n, file=None, maclaurin_coeffs=maclaurin_coeffs 
         )
 
 
