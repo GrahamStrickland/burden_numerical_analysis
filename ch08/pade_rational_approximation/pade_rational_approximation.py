@@ -14,7 +14,7 @@ def pade_rational_approximation(
 
     # STEP 1: Set N = m + n.
     max_degree = m + n
-    b = np.zeros((max_degree, max_degree+2)) 
+    b = np.zeros((max_degree, max_degree+1)) 
     q = np.zeros(m+1)
     p = np.zeros(n+1)
 
@@ -59,24 +59,27 @@ def pade_rational_approximation(
 
     # (Steps 11-22 solve the linear system using partial pivoting.)
     # STEP 11: For i = n+1, n+2, ..., N-1 do Steps 12-18.
-    for i in range(n+1, max_degree-1):
+    for i in range(n, max_degree-1):
         # STEP 12: Let k be the smallest integer with i <= k <= N and |b_k,i|
         #           = max_i<=j<=N |b_j,i|.
         #           (Find pivot element.)
         k = 0
-        max = 0
-        for j in range(i, max_degree+1):
-            if abs(b[j][i]) > max:
-                max = b[j][i]
-        for pivot in range(i, max_degree+1):
-            if abs(b[pivot][i]) == max:
+        max_element = 0
+        for j in range(i, max_degree):
+            if abs(b[j][i]) > max_element:
+                max_element = b[j][i]
+        for pivot in range(i, max_degree):
+            if abs(b[pivot][i]) == abs(max_element):
                 k = pivot
                 break
 
         # STEP 13: If b_k,i = 0 then OUTPUT("The system is singular");
         #                            STOP.
         if b[k][i] == 0.:
-            print("The system is singular.")
+            if not file:
+                print("The system is singular.")
+            else:
+                file.write("The system is singular.")
             return []
 
         # STEP 14: If k!= i then (Interchange row i and row k.)
@@ -107,39 +110,47 @@ def pade_rational_approximation(
 
     # STEP 19: If b_N,N = 0 then OUTPUT("The system is singular");
     #                            STOP.
-    if b[max_degree][max_degree] == 0.:
-        print("The system is singular.")
+    if b[max_degree-1][max_degree-1] == 0.:
+        if not file:
+            print("The system is singular.")
+        else:
+            file.write("The system is singular.")
         return []
 
     # STEP 20: If m > 0 then set q_m = b_N,N+1 / b_N,N. 
     #           (Start backward substitution.)
     if m > 0:
         try:
-            q[m] = b[max_degree][max_degree+1] / b[max_degree][max_degree]
+            q[m] = b[max_degree-1][max_degree] / b[max_degree-1][max_degree-1]
         except ZeroDivisionError as e:
             print(e)
             return []
 
     # STEP 21: For i = N-1, N-2, ..., n+1 
     #           set q_i-n = b_i,N+1 - sum_j=n+1^N b_i,j * q_j-n / b_i,i.
-    for i in range(max_degree-1, n, -1):
+    for i in range(max_degree-2, n-1, -1):
         sum = 0
-        for j in range(n+1, max_degree):
-            sum += b[i][j] * q[j-n]
+        for j in range(i+1, max_degree):
+            sum += b[i][j] * q[j-n+1]
         try:
-            q[i-n] = b[i][max_degree+1] - (sum/b[i][i]) 
+            q[i-n+1] = b[i][max_degree] - (sum/b[i][i]) 
         except ZeroDivisionError as e:
             print(e)
             return []
 
     # STEP 22: For i = n, n-1, ..., 1 set p_i = b_i,N+1 - sum_j=n+1^N b_i,j * q_j-n.
-    for i in range(n-1, 0, -1):
+    for i in range(n-1, -1, -1):
         sum = 0
         for j in range(n, max_degree):
-            sum += b[i][j] * q[j-n] 
-            p[i] = b[i][max_degree+1] - sum 
+            sum += b[i][j] * q[j-n+1] 
+        p[i] = b[i][max_degree] - sum 
 
     # STEP 23: OUTPUT(q_0, q_1, ..., q_m, p_0, p_1, ..., p_n);
     #          STOP. (The procedure was successful.)
-    print(q, p)
-    return q.append(p)
+    if not file:
+        print(q, p)
+    else:
+        file.write(q)
+        file.write(p)
+
+    return [q.tolist(), p.tolist()]

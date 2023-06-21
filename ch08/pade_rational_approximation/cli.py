@@ -28,8 +28,8 @@ def check_input_params(
     if m < 0 or n < 0:
         raise IOError("m and n must be nonnegative integers.")
 
-    if len(maclaurin_coeffs) != m+n+1:
-        raise IOError(f"Please specify {m+n+1} Maclaurin coefficients.")
+    if len(maclaurin_coeffs) != m + n:
+        raise IOError(f"Please specify {m + n} Maclaurin coefficients.")
 
     return [m, n, maclaurin_coeffs]
 
