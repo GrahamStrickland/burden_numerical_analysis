@@ -148,7 +148,8 @@ def pade_rational_approximation(
     # STEP 23: OUTPUT(q_0, q_1, ..., q_m, p_0, p_1, ..., p_n);
     #          STOP. (The procedure was successful.)
     if not file:
-        print(q, p)
+        print(f"q = {q}")
+        print(f"p = {p}")
     else:
         file.write(q)
         file.write(p)
