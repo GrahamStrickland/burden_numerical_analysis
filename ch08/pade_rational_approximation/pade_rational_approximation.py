@@ -82,7 +82,7 @@ def pade_rational_approximation(
                 file.write("The system is singular.")
             return []
 
-        # STEP 14: If k!= i then (Interchange row i and row k.)
+        # STEP 14: If k != i then (Interchange row i and row k.)
         #           for j = i, i+1, ..., N+1 set
         #           b_COPY = b_i,j;
         #           b_i,j = b_k,j;
@@ -131,9 +131,9 @@ def pade_rational_approximation(
     for i in range(max_degree-2, n-1, -1):
         sum = 0
         for j in range(i+1, max_degree):
-            sum += b[i][j] * q[j-n+1]
+            sum += b[i][j] * q[j-n]
         try:
-            q[i-n+1] = b[i][max_degree] - (sum/b[i][i]) 
+            q[i-n] = b[i][max_degree] - (sum/b[i][i]) 
         except ZeroDivisionError as e:
             print(e)
             return []
@@ -142,7 +142,7 @@ def pade_rational_approximation(
     for i in range(n-1, -1, -1):
         sum = 0
         for j in range(n, max_degree):
-            sum += b[i][j] * q[j-n+1] 
+            sum += b[i][j] * q[j-n] 
         p[i] = b[i][max_degree] - sum 
 
     # STEP 23: OUTPUT(q_0, q_1, ..., q_m, p_0, p_1, ..., p_n);
