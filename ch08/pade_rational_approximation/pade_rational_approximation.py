@@ -12,57 +12,47 @@ def pade_rational_approximation(
     INPUT nonnegative integers m and n.
     OUTPUT coefficients q_0, q_1, ..., q_m and p_0, p_1, ..., p_n."""
 
-    # STEP 1: Set N = m + n.
+    # STEP 1
     max_degree = m + n
     b = np.zeros((max_degree, max_degree+1)) 
-    q = np.zeros(m+1)
-    p = np.zeros(n+1)
+    q = np.zeros(m)
+    p = np.zeros(n)
 
-    # STEP 2: For i = 0, 1, ..., N set a_i = f^(i)(0)/i!.
-    #         (The coefficients of the Maclaurin polynomial are a_0, ..., a_N,
-    #         which could be input instead of calculated.)
-
-    # STEP 3: Set q_0 = 1;
-    #             p_0 = a_0.
+    # STEP 2, 3: Maclaurin coefficients were input.
     q[0] = 1.
     p[0] = maclaurin_coeffs[0]
 
-    # STEP 4: For i = 1, 2, ..., N do Steps 5-10. (Set up a linear system with 
-    #         matrix B.)
+    # STEP 4: Set up a linear system with matrix B.
     for i in range(max_degree):
-        # STEP 5: For j = 1, 2, ..., i - 1
-        #           if j <= n then set b_i,j = 0.
+        # STEP 5
         for j in range(i):
             if j < n:
                 b[i][j] = 0.
 
-        # STEP 6: If i <= n then set b_i,i = 1.
+        # STEP 6
         if i < n:
             b[i][i] = 1.
 
-        # STEP 7: For j = i+1, i+2, ..., N set b_i,j = 0.
+        # STEP 7
         for j in range(i+1, max_degree):
             b[i][j] = 0.
 
-        # STEP 8: For j = 1, 2, ..., i
-        #           if j <= m then set b_i,n+j = -a_i-j.
+        # STEP 8
         for j in range(i+1):
             if j < m:
-                b[i][n+j] = -maclaurin_coeffs[i-j]
+                b[i][n+j] = -maclaurin_coeffs[i-j-1]
 
-        # STEP 9: For j = n+i+1, n+i+2, ..., N set b_i,j = 0.
+        # STEP 9
         for j in range(n+i+1, max_degree):
             b[i][j] = 0.
 
-        # STEP 10: Set b_i,N+1 = a_i.
+        # STEP 10
         b[i][max_degree] = maclaurin_coeffs[i]
 
-    # (Steps 11-22 solve the linear system using partial pivoting.)
-    # STEP 11: For i = n+1, n+2, ..., N-1 do Steps 12-18.
+    # Steps 11-22 solve the linear system using partial pivoting.
+    # STEP 11
     for i in range(n, max_degree-1):
-        # STEP 12: Let k be the smallest integer with i <= k <= N and |b_k,i|
-        #           = max_i<=j<=N |b_j,i|.
-        #           (Find pivot element.)
+        # STEP 12: Find pivot element.
         k = 0
         max_element = 0
         for j in range(i, max_degree):
@@ -73,8 +63,7 @@ def pade_rational_approximation(
                 k = pivot
                 break
 
-        # STEP 13: If b_k,i = 0 then OUTPUT("The system is singular");
-        #                            STOP.
+        # STEP 13: STOP.
         if b[k][i] == 0.:
             if not file:
                 print("The system is singular.")
@@ -82,34 +71,28 @@ def pade_rational_approximation(
                 file.write("The system is singular.")
             return []
 
-        # STEP 14: If k != i then (Interchange row i and row k.)
-        #           for j = i, i+1, ..., N+1 set
-        #           b_COPY = b_i,j;
-        #           b_i,j = b_k,j;
-        #           b_k,j = b_COPY.
+        # STEP 14: Interchange row i and row k.
         if k != i:
             for j in range(i, max_degree+1):
                 b[i][j], b[k][j] = b[k][j], b[i][j]
 
-        # STEP 15: For j = i+1, i+2, ..., N do Steps 16-18. (Perform elimination.)
+        # STEP 15: Perform elimination.
         for j in range(i+1, max_degree):
-            # STEP 16: Set xm = b_j,i / b_i,i.
+            # STEP 16
             try:
                 xm = b[j][i] / b[i][i]
             except ZeroDivisionError as e:
                 print(e)
                 return []
 
-            # STEP 17: For k = i+1, i+2, ..., N+1
-            #           set b_j,k = b_j,k - xm*b_i,k.
+            # STEP 17
             for k in range(i+1, max_degree+1):
                 b[j][k] = b[j][k] - xm*b[i][k]
 
-            # STEP 18: Set b_j,i = 0.
+            # STEP 18
             b[j][i] = 0.
 
-    # STEP 19: If b_N,N = 0 then OUTPUT("The system is singular");
-    #                            STOP.
+    # STEP 19: STOP.
     if b[max_degree-1][max_degree-1] == 0.:
         if not file:
             print("The system is singular.")
@@ -117,17 +100,15 @@ def pade_rational_approximation(
             file.write("The system is singular.")
         return []
 
-    # STEP 20: If m > 0 then set q_m = b_N,N+1 / b_N,N. 
-    #           (Start backward substitution.)
+    # STEP 20: Start backward substitution.
     if m > 0:
         try:
-            q[m] = b[max_degree-1][max_degree] / b[max_degree-1][max_degree-1]
+            q[m-1] = b[max_degree-1][max_degree] / b[max_degree-1][max_degree-1]
         except ZeroDivisionError as e:
             print(e)
             return []
 
-    # STEP 21: For i = N-1, N-2, ..., n+1 
-    #           set q_i-n = b_i,N+1 - sum_j=n+1^N b_i,j * q_j-n / b_i,i.
+    # STEP 21
     for i in range(max_degree-2, n-1, -1):
         sum = 0
         for j in range(i+1, max_degree):
@@ -138,15 +119,14 @@ def pade_rational_approximation(
             print(e)
             return []
 
-    # STEP 22: For i = n, n-1, ..., 1 set p_i = b_i,N+1 - sum_j=n+1^N b_i,j * q_j-n.
+    # STEP 22
     for i in range(n-1, -1, -1):
         sum = 0
         for j in range(n, max_degree):
             sum += b[i][j] * q[j-n] 
         p[i] = b[i][max_degree] - sum 
 
-    # STEP 23: OUTPUT(q_0, q_1, ..., q_m, p_0, p_1, ..., p_n);
-    #          STOP. (The procedure was successful.)
+    # STEP 23: The procedure was successful.
     if not file:
         print(f"q = {q}")
         print(f"p = {p}")
