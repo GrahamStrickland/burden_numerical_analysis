@@ -1,135 +1,74 @@
-# 7.3 SOR
-# To solve Ax = b given the parameter ω and an initial approximation x0:
-# Input: the number of equations and unknowns n;
-#        the entries a[i,j], 1 <= i, j <= n of the matrix A;
-#        the entries b[i], 1 <= i <= n of b; the entries XO[i],
-#        of XO = x0; the parameter ω; tolerance TOL; 
-#        maximum number of iterations N.
-# Output: the approximate solution x[1],...,x[n] or a message that the
-#         number of iterations was exceeded.
+#!/usr/bin/env python3
 import numpy as np
 
-def inp(OK, n, A, b, XO, ω, TOL, N):
-  OK = False
 
-  # Input n
-  while not OK:
-    n = int(input("Please input the number of unkowns and equations (n): "))
-    if n <= 0:
-      print("Must be a positive integer value.")
-    else:
-      OK = True
+def sor(a: np.array, n: int, b: np.array, x_0: np.array, omega: float, 
+        tol: float, max_iter: int
+) -> np.array:
+    """To solve Ax = b given the parameter omega and an initial approximation x0:
+    INPUT the number of equations and unknowns n:
+    the entries a[i,j], 1 <= i, j <= n of the matrix A;
+    the entries b[i], 1 <= i <= n of b; the entries XO[i],
+    of XO = x0; the parameter omega; tolerance TOL;
+    maximum number of iterations N.
+    OUTPUT the approximate solution x[1],...,x[n] or a message that the
+    number of iterations was exceeded.
+    """
+    x = np.zeros(n)
 
-  # Declare A as uninitialized array
-  A = np.empty([n, n])
-  b = np.empty(n)
-  XO = np.empty(n)
+    print("This is the SOR Method for Linear Systems.")
 
-  # Fill array coefficients
-  OK = False
-  while not OK:
-    print("Please enter the coefficients for matrix A: ")
-    for i in range(n):
-      print(f"Row {i+1}:")
-      for j in range(n):
-        A[i, j] = np.double(input(f"A[{i+1}, {j+1}]: "))
-    print("Please enter the values of the column vector b: ")
-    for k in range(n):
-      b[k] = np.double(input(f"b[{k+1}]: "))
-    print("Please enter the initial approximations for x0: ")
-    for l in range(n):
-      XO[l] = np.double(input(f"x0[{l+1}]: "))
-    OK = True
-
-  if OK:
-    # input parameter ω
-    OK = False
-    while not OK:
-      ω = float(input("Please input a value for the parameter ω: "))
-      
-      if ω <= 0.0:
-        print("ω must be a positive value.")
-      else:
-        OK = True
-
-    # input tolerance TOL
-    OK = False
-    while not OK:
-      TOL = float(input("Please input a value for the tolerance (TOL): "))
-      
-      if TOL <= 0.0:
-        print("TOL must be a positive value.")
-      else:
-        OK = True
-
-    # input maximum number of iterations
-    OK = False
-    while OK == False:
-      N = int(input("Please enter a value for the maximum number of iterations (N): "))
-
-      if N <= 0:
-        print("N0 must be a positive value.")
-      else:
-        OK = True
-  
-  return OK, n, A, b, XO, ω, TOL, N
-
-def main():
-  OK = False
-  n = 0
-  A = np.empty(0)
-  XO = np.empty(0)
-  b = np.empty(0)
-  ω = 0.0
-  TOL = 0.0
-  N = 0
-
-  OK, n, A, b, XO, ω, TOL, N = inp(OK, n, A, b, XO, ω, TOL, N)
-  x = np.zeros(n)
-
-  print("This is SOR.")
-
-  if OK:
-    # STEP 1: Set k = 1.
+    # STEP 1
     k = 1
 
-    # STEP 2: While (k <= N) do Steps 3-6.
-    while k <= N and OK:
-      # STEP 3: For i = 1,...,n set x[i]
-      for i in range(n):
-        sum1 = 0.0
-        sum2 = 0.0
-        for j in range(i):
-          sum1 += A[i,j] * x[j]
-        for l in range(i+1, n):
-          sum2 += A[i,l] * XO[l]
-        x[i] = ((1 - ω) * XO[i]) + (ω * (-sum1 - sum2 + b[i])) / A[i,i]
+    # STEP 2
+    while k <= max_iter:
+        # STEP 3
+        for i in range(n):
+            sum_1 = 0.
+            sum_2 = 0.
+            for j in range(i):
+                sum_1 += a[i,j] * x[j]
+            for l in range(i+1, n):
+                sum_2 += a[i,l] * x_0[l]
+            x[i] = ((1.-omega) * x_0[i]) + (omega * (-sum_1-sum_2+b[i])) / a[i,i]
 
-      print(f"Iteration {k}:")
-      for i in range(n):
-        print(f"x[{i+1}] = {x[i]}")
-      
-      # STEP 4: If ||x - XO|| < TOL then procedure was successful.
-      norm = abs(x[0] - XO[0])
-      for i in range(n):
-        if abs(x[i] - XO[i]) > norm:
-          norm = abs(x[i] - XO[i])
-      if norm < TOL:
-        print(f"The procedure was successful after {k} iterations.")
-        print(f"||x - x0|| = {norm}, < TOL = {TOL}")
-        OK = False
+        # STEP 4: If ||x - XO|| < TOL then procedure was successful.
+        norm = abs(x[0] - x_0[0])
+        for i in range(n):
+            if abs(x[i] - x_0[i]) > norm:
+                norm = abs(x[i] - x_0[i])
+        if norm < tol:
+            print(f"The procedure was successful after {k} iterations.")
+            print(f"||x - x0|| = {norm}, < TOL = {tol}")
+            return x
 
-      if OK:
-        # STEP 5: Set k = k + 1.
+        # STEP 5
         k = k + 1
 
         # STEP 6: For i = 1,...,n set XO[i] = x[i].
         for i in range(n):
-          XO[i] = x[i]
+            x_0[i] = x[i]
 
-  # STEP 7: The procedure was not successful.
-  if OK:
+    # STEP 7
     print("The procedure was not successful.")
-    OK = False
 
-main()
+
+def main() -> None:
+    a = np.array([[3., -1., 1.],
+                  [3., 6., 2.],
+                  [3., 3., 7.]])
+    n = 3
+    b = np.array([1., 0., 4.])
+    x_0 = np.array([0., 0., 0.])
+    omega = 1.2
+    tol = 1e-3
+    max_iter = 200
+
+    x = sor(a, n, b, x_0, omega, tol, max_iter)
+
+    print(f"Result: x = {x}")
+
+
+if __name__ == "__main__":
+    main()
