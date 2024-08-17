@@ -8,11 +8,11 @@ import math
 def inp_vals(OK, a, b, TOL, N):
     OK = False
     ans = input("Have you defined the function f before starting this program? (Y/N): ")
-    if ans == 'Y' or ans == 'y':
+    if ans == "Y" or ans == "y":
         OK = True
 
         OK = False
-        while OK == False:
+        while not OK:
             # Enter amount for lower and upper bounds (a and b).
             a = float(input("Please enter a value for the lower bound (a): "))
             b = float(input("Please enter a value for the upper bound (b): "))
@@ -30,7 +30,7 @@ def inp_vals(OK, a, b, TOL, N):
                 b = x
 
         OK = False
-        while OK == False:
+        while not OK:
             # Input value for TOL.
             TOL = float(input("Please input a value for the tolerance (TOL): "))
 
@@ -41,9 +41,13 @@ def inp_vals(OK, a, b, TOL, N):
                 OK = True
 
         OK = False
-        while OK == False:
+        while not OK:
             # Input value for limit to number of levels.
-            N = int(input("Please input a value for the limit to the number of levels (N): "))
+            N = int(
+                input(
+                    "Please input a value for the limit to the number of levels (N): "
+                )
+            )
 
             # Check that n is a positive integer.
             if N <= 0:
@@ -53,13 +57,13 @@ def inp_vals(OK, a, b, TOL, N):
 
         # Return values for function.
         return OK, a, b, TOL, N
-    else: # If answer is not yes, terminate program.
+    else:  # If answer is not yes, terminate program.
         print("Terminating program so that functions can be defined.")
         return
 
 
 def f(x):
-    return x*math.sin(x**2)
+    return x * math.sin(x**2)
 
 
 def main():
@@ -80,7 +84,7 @@ def main():
     S = []
     L = []
     v = [None for _ in range(8)]
-    for i in range(N+1):
+    for i in range(N + 1):
         a.append(None)
         TOL.append(None)
         h.append(None)
@@ -94,24 +98,24 @@ def main():
         # STEP 1: Set list values.
         APP = 0
         i = 1
-        TOL[i] = 10*TOL[0]
+        TOL[i] = 10 * TOL[0]
         a[i] = a[0]
-        h[i] = (b0-a[0]) / 2
+        h[i] = (b0 - a[0]) / 2
         FA[i] = f(a[0])
         FC[i] = f(a[0] + h[i])
         FB[i] = f(b0)
-        S[i] = h[i] * (FA[i] + 4*FC[i] + FB[i]) / 3
+        S[i] = h[i] * (FA[i] + 4 * FC[i] + FB[i]) / 3
         L[i] = 1
 
         # STEP 2: While i > 0 do Steps 3-5.
         while i > 0 and OK:
             # Set list values.
-            FD = f(a[i] + h[i]/2)
-            FE = f(a[i] + (3*h[i])/2)
+            FD = f(a[i] + h[i] / 2)
+            FE = f(a[i] + (3 * h[i]) / 2)
 
             # Approximations from Simpson's method for halves of subintervals.
-            S1 = h[i] * (FA[i] + 4*FD + FC[i]) / 6 
-            S2 = h[i] * (FC[i] + 4*FE + FB[i]) / 6
+            S1 = h[i] * (FA[i] + 4 * FD + FC[i]) / 6
+            S2 = h[i] * (FC[i] + 4 * FE + FB[i]) / 6
 
             # Save data at this level.
             v[0] = a[i]
@@ -131,10 +135,10 @@ def main():
                 APP = APP + (S1 + S2)
                 CNT = CNT + 1
             else:
-                if v[7] >= N: # Procedure fails.
+                if v[7] >= N:  # Procedure fails.
                     print("Level exceeded, procedure failed.")
                     OK = False
-                else: # Add one level.
+                else:  # Add one level.
                     # Set data for right-half subinterval.
                     i = i + 1
                     a[i] = v[0] + v[4]
@@ -147,22 +151,26 @@ def main():
                     L[i] = v[7] + 1
 
                     # Set data for left-half subinterval.
-        
-        
+
                     i = i + 1
                     a[i] = v[0]
                     FA[i] = v[1]
                     FC[i] = FD
                     FB[i] = v[2]
-                    h[i] = h[i-1]
-                    TOL[i] = TOL[i-1]
+                    h[i] = h[i - 1]
+                    TOL[i] = TOL[i - 1]
                     S[i] = S1
-                    L[i] = L[i-1]
+                    L[i] = L[i - 1]
 
         # STEP 6: Procedure successful.
         if OK:
-            print("Integral of f over ({},{}) approximated to within {} over {} subintervals.".format(a0, b0, TOL0, CNT))
+            print(
+                "Integral of f over ({},{}) approximated to within {} over {} subintervals.".format(
+                    a0, b0, TOL0, CNT
+                )
+            )
             print("Approximation = {:.10f}".format(APP))
 
 
-main()
+if __name__ == "__main__":
+    main()

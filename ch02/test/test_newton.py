@@ -27,7 +27,7 @@ def test_newtons_method_poly() -> None:
         return x**2 - 6.0
 
     def dx(x: float) -> float:
-        return 2.0*x
+        return 2.0 * x
 
     p_0: float = 1.0
     tol: float = 1e-4
@@ -41,10 +41,10 @@ def test_newtons_method_poly() -> None:
 
 def test_newtons_method_poly_2() -> None:
     def f(x: float) -> float:
-        return x**3 - 2.0*x**2 - 5.0
+        return x**3 - 2.0 * x**2 - 5.0
 
     def dx(x: float) -> float:
-        return 3.0*x**2 - 4.0*x
+        return 3.0 * x**2 - 4.0 * x
 
     p_0: float = 2.0
     tol: float = 1e-4
@@ -58,10 +58,10 @@ def test_newtons_method_poly_2() -> None:
 
 def test_newtons_method_poly_3() -> None:
     def f(x: float) -> float:
-        return x**3 + 3.0*x**2 - 1.0
+        return x**3 + 3.0 * x**2 - 1.0
 
     def dx(x: float) -> float:
-        return 3.0*x**2 + 6.0*x
+        return 3.0 * x**2 + 6.0 * x
 
     p_0: float = -3.0
     tol: float = 1e-4
@@ -92,10 +92,10 @@ def test_newtons_method_trig_2() -> None:
 
 def test_newtons_method_trig_3() -> None:
     def f(x: float) -> float:
-        return x - 0.8 - 0.2*math.sin(x)
+        return x - 0.8 - 0.2 * math.sin(x)
 
     def dx(x: float) -> float:
-        return 1.0 - 0.2*math.cos(x)
+        return 1.0 - 0.2 * math.cos(x)
 
     p_0: float = 0.0
     tol: float = 1e-4

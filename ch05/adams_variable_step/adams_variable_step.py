@@ -10,42 +10,50 @@ SHORT_BORDER = 84
 
 
 def adams_variable_step(
-        function: Callable[[float, ...], float], a: float, b: float, alpha: float,
-        tol: float, hmax: float, hmin: float, file: TextIO = None, 
-        solution: Callable[[float], float] = None
+    function: Callable[[float, ...], float],
+    a: float,
+    b: float,
+    alpha: float,
+    tol: float,
+    hmax: float,
+    hmin: float,
+    file: TextIO = None,
+    solution: Callable[[float], float] = None,
 ) -> list[float]:
     """To approximate the solution of the initial-value problem y' = f(t, y),
     a <= t <= b, y(a) = alpha, with local truncation error within a given tolerance.
     INPUT endpoints a, b; initial condition alpha; tolerance TOL; maximum step size
     hmax; minimum step size hmin.
-    OUTPUT i, t_i, w_i, h, where at the ith step w_i approximates y(t_i) and 
-    the step size h was used, or a message that the minimum step size was exceeded. 
+    OUTPUT i, t_i, w_i, h, where at the ith step w_i approximates y(t_i) and
+    the step size h was used, or a message that the minimum step size was exceeded.
     """
     # output table heading
     if solution:
         output_string = f"{'-'*LONG_BORDER}\nt_i\t\t\ty_i=y(t_i)\t\tw_i\t\t\th\t\t\t"
         output_string += f"sigma_i\t\t\t|y_i - w_i|\n{'-'*LONG_BORDER}"
     else:
-        output_string = f"{'-'*SHORT_BORDER}\nt_i\t\t\tw_i\t\t\th\t\t\tsigma_i\n{'-'*SHORT_BORDER}"
+        output_string = (
+            f"{'-'*SHORT_BORDER}\nt_i\t\t\tw_i\t\t\th\t\t\tsigma_i\n{'-'*SHORT_BORDER}"
+        )
     if not file:
         print(output_string)
     else:
-        file.write(output_string + '\n')
+        file.write(output_string + "\n")
 
     # STEP 2:
-    max_len = math.ceil(abs(b-a) / hmin)
-    t = [a] + max_len * [0.]
-    w = [alpha] + max_len * [0.]
+    max_len = math.ceil(abs(b - a) / hmin)
+    t = [a] + max_len * [0.0]
+    w = [alpha] + max_len * [0.0]
     h = hmax
-    flag = True     # FLAG will be used to exit the loop in STEP 4
-    last = False    # LAST will indicate when the last value is calculated
+    flag = True  # FLAG will be used to exit the loop in STEP 4
+    last = False  # LAST will indicate when the last value is calculated
 
     # output row
-    row_output(t[0], w[0], 0., 0., file=file, solution=solution)
+    row_output(t[0], w[0], 0.0, 0.0, file=file, solution=solution)
 
     # STEP 3: Calculate Runge-Kutta approximations
     w, t = rk4(function, 1, h, w, t)
-    nflag = True    # Indicates computation from RK4
+    nflag = True  # Indicates computation from RK4
     i = 4
     t_next = t[3] + h
 
@@ -53,17 +61,19 @@ def adams_variable_step(
     while flag and (not isinstance(w[j], complex) for j in range(len(w))):
         # STEP 5: Predict w_i, correct w_i
         try:
-            w_p = w[i-1] + (h/24.) * (55.*function(t[i-1], w[i-1]) - 
-                                      59.*function(t[i-2], w[i-2]) +
-                                      37.*function(t[i-3], w[i-3]) -
-                                      9.*function(t[i-4], w[i-4])
-                                      )
-            w_c = w[i-1] + (h/24.) * (9.*function(t_next, w_p) + 
-                                      19.*function(t[i-1], w[i-1]) - 
-                                      5.*function(t[i-2], w[i-2]) +
-                                      function(t[i-3], w[i-3])
-                                      )
-            sigma = (19./(270.*h)) * abs(w_c - w_p)
+            w_p = w[i - 1] + (h / 24.0) * (
+                55.0 * function(t[i - 1], w[i - 1])
+                - 59.0 * function(t[i - 2], w[i - 2])
+                + 37.0 * function(t[i - 3], w[i - 3])
+                - 9.0 * function(t[i - 4], w[i - 4])
+            )
+            w_c = w[i - 1] + (h / 24.0) * (
+                9.0 * function(t_next, w_p)
+                + 19.0 * function(t[i - 1], w[i - 1])
+                - 5.0 * function(t[i - 2], w[i - 2])
+                + function(t[i - 3], w[i - 3])
+            )
+            sigma = (19.0 / (270.0 * h)) * abs(w_c - w_p)
 
             # STEP 6: If sigma <= TOL then do Steps 7-16 (result accepted)
             #           else do Steps 17-19 (result rejected)
@@ -73,15 +83,15 @@ def adams_variable_step(
                 t[i] = t_next
 
                 # STEP 8:
-                if nflag:   # Previous results also accepted
-                    for j in range(i-3, i+1):
+                if nflag:  # Previous results also accepted
+                    for j in range(i - 3, i + 1):
                         row_output(t[j], w[j], h, sigma, file=file, solution=solution)
-                else:   # Previous results already accepted
+                else:  # Previous results already accepted
                     row_output(t[i], w[i], h, sigma, file=file, solution=solution)
 
                 # STEP 9:
                 if last:
-                    flag = False    # Next step is 20
+                    flag = False  # Next step is 20
                 else:
                     # STEP 10:
                     i = i + 1
@@ -89,16 +99,16 @@ def adams_variable_step(
 
                     # STEP 11: Increase h if it is more accurate than required or
                     #           decrease h to include b as a mesh point
-                    if sigma <= .1*tol or t[i-1] + h > b:
+                    if sigma <= 0.1 * tol or t[i - 1] + h > b:
                         # STEP 12:
-                        if sigma <= 1.0e-20:    # For underflow handling
-                            q = 4.
+                        if sigma <= 1.0e-20:  # For underflow handling
+                            q = 4.0
                         else:
-                            q = math.exp(.25*math.log(.5*tol/sigma)) 
+                            q = math.exp(0.25 * math.log(0.5 * tol / sigma))
 
                         # STEP 13:
-                        if q > 4.:
-                            h = 4. * h
+                        if q > 4.0:
+                            h = 4.0 * h
                         else:
                             h = q * h
 
@@ -107,22 +117,22 @@ def adams_variable_step(
                             h = hmax
 
                         # STEP 15:
-                        if t[i-1] + 4.*h > b:
-                            h = (b - t[i-1])/4.
+                        if t[i - 1] + 4.0 * h > b:
+                            h = (b - t[i - 1]) / 4.0
                             last = True
-                        
+
                         # STEP 16:
                         w, t = rk4(function, i, h, w, t)
                         nflag = 1
-                        i = i + 3   # True branch completed. End Step 6. Next step is 20
+                        i = i + 3  # True branch completed. End Step 6. Next step is 20
 
             else:
                 # STEP 17: Flase branch from Step 6: result rejected
-                q = (tol/(2.*sigma))**(.25)
+                q = (tol / (2.0 * sigma)) ** (0.25)
 
                 # STEP 18:
-                if q < .1:
-                    h = .1 * h
+                if q < 0.1:
+                    h = 0.1 * h
                 else:
                     h = q * h
 
@@ -131,63 +141,72 @@ def adams_variable_step(
                     flag = False
                     raise ArithmeticError(
                         "Minimum h exceeded, procedure completed unsuccessfully."
-                        )
+                    )
                 else:
-                    if nflag:   # Previous results also rejected
+                    if nflag:  # Previous results also rejected
                         i = i - 3
                     w, t = rk4(function, i, h, w, t)
                     i = i + 3
-                    nflag = True    # End Step 6
-                    
+                    nflag = True  # End Step 6
+
         except ZeroDivisionError as e:
             print(e)
             return []
 
         # STEP 20: End Step 4
-        t_next = t[i-1] + h
+        t_next = t[i - 1] + h
 
     # STEP 21: stop
     if solution:
-        output_string = '-' * LONG_BORDER + '\n'
+        output_string = "-" * LONG_BORDER + "\n"
     else:
-        output_string = '-' * SHORT_BORDER + '\n'
+        output_string = "-" * SHORT_BORDER + "\n"
 
     if not file:
         print(output_string)
     else:
         file.write(output_string)
-    return w[0:i+1] 
+    return w[0 : i + 1]
 
 
 def rk4(
-        function: Callable[[float, ...], float], 
-        i: int, h: float, v: list[float], x: list[float]
-        ) -> tuple[list[float]]:
+    function: Callable[[float, ...], float],
+    i: int,
+    h: float,
+    v: list[float],
+    x: list[float],
+) -> tuple[list[float]]:
     # STEP 1: Return {(x_j, v_j)| j = 1, 2, 3}
-    for j in range(i, i+3):
-        k_1 = h * function(x[j-1], v[j-1])
-        k_2 = h * function(x[j-1] + h/2., v[j-1] + k_1/2.)
-        k_3 = h * function(x[j-1] + h/2., v[j-1] + k_2/2.)
-        k_4 = h * function(x[j-1] + h, v[j-1] + k_3)
-        v[j] = v[j-1] + (k_1 + 2.*k_2 + 2.*k_3 + k_4)/6.
-        x[j] = x[j-1] + h
+    for j in range(i, i + 3):
+        k_1 = h * function(x[j - 1], v[j - 1])
+        k_2 = h * function(x[j - 1] + h / 2.0, v[j - 1] + k_1 / 2.0)
+        k_3 = h * function(x[j - 1] + h / 2.0, v[j - 1] + k_2 / 2.0)
+        k_4 = h * function(x[j - 1] + h, v[j - 1] + k_3)
+        v[j] = v[j - 1] + (k_1 + 2.0 * k_2 + 2.0 * k_3 + k_4) / 6.0
+        x[j] = x[j - 1] + h
 
     return (v, x)
 
 
 def row_output(
-        t_i: float, w_i: float, h: float = 0.0, sigma: float = 0.0, 
-        file: TextIO = None, solution: Callable[[float], float] = None
+    t_i: float,
+    w_i: float,
+    h: float = 0.0,
+    sigma: float = 0.0,
+    file: TextIO = None,
+    solution: Callable[[float], float] = None,
 ) -> None:
     """Function to output row of table."""
     if solution:
-        output = "{:.10f}\t\t{:.10f}\t\t{:.10f}\t\t{:.10f}\t\t{:.10f}\t\t{:.10f}".format(
-            t_i, solution(t_i), w_i, h, sigma, abs(solution(t_i) - w_i)
+        output = (
+            "{:.10f}\t\t{:.10f}\t\t{:.10f}\t\t{:.10f}\t\t{:.10f}\t\t{:.10f}".format(
+                t_i, solution(t_i), w_i, h, sigma, abs(solution(t_i) - w_i)
             )
+        )
     else:
         output = "{:.10f}\t\t{:.10f}\t\t{:.10f}\t\t{:.10f}".format(t_i, w_i, h, sigma)
 
     if not file:
         print(output)
     else:
-        file.write(output + '\n')
+        file.write(output + "\n")

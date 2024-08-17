@@ -4,14 +4,15 @@
 # Output: approximation XI to I.
 import math
 
+
 def inp_vals(OK, a, b, n):
     OK = False
     ans = input("Have you defined the function f before starting this program? (Y/N): ")
-    if ans == 'Y' or ans == 'y':
+    if ans == "Y" or ans == "y":
         OK = True
 
         OK = False
-        while OK == False:
+        while not OK:
             # Enter amount for lower and upper bounds (a and b).
             a = float(input("Please enter a value for the lower bound (a): "))
             b = float(input("Please enter a value for the upper bound (b): "))
@@ -29,19 +30,19 @@ def inp_vals(OK, a, b, n):
                 b = x
 
         OK = False
-        while OK == False:
+        while not OK:
             # Input value for number of subintervals.
             n = int(input("Please input a value for the number of subintervals (n): "))
 
             # Check that n is an even, positive integer.
-            if n <= 0 or n%2 != 0:
+            if n <= 0 or n % 2 != 0:
                 print("Number of subintervals must be an even, positive integer.")
             else:
                 OK = True
 
         # Return values for function.
         return OK, a, b, n
-    else: # If answer is not yes, terminate program.
+    else:  # If answer is not yes, terminate program.
         print("Terminating program so that functions can be defined.")
         return
 
@@ -61,23 +62,24 @@ def main():
 
     if OK:
         # STEP 1: Set h.
-        h = (b-a) / (n+2)
+        h = (b - a) / (n + 2)
 
         # STEP 2: Set XI.
         XI = 0.0
 
         # STEP 3: For j = -1, 0,..., n+1 do Step 4.
-        for j in range(-1, n+2):
+        for j in range(-1, n + 2):
             # STEP 4: Set XJ, XI.
-            XJ = a + (j + 1)*h
-            if (j%2 == 0):
+            XJ = a + (j + 1) * h
+            if j % 2 == 0:
                 XI += f(XJ)
 
         # STEP 5: Set XI.
-        XI *= 2*h
+        XI *= 2 * h
 
         # STEP 6: Output result..
         print("Approximate solution XI = {:.10f}".format(XI))
 
 
-main()
+if __name__ == "__main__":
+    main()

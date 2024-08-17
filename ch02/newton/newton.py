@@ -5,9 +5,13 @@ from typing import TextIO
 
 
 def newtons_method(
-        function: Callable[[float], float], derivative: Callable[[float], float],
-        p_0: float, tol: float, n_0: int, file: TextIO = None,
-        table_output: bool = False
+    function: Callable[[float], float],
+    derivative: Callable[[float], float],
+    p_0: float,
+    tol: float,
+    n_0: int,
+    file: TextIO = None,
+    table_output: bool = False,
 ) -> float:
     """To find a solution to f(x) = 0 given an initial approximation p_0:
     INPUT initial approximation p_0; tolerance TOL; maximum number of iterations N0.
@@ -19,7 +23,7 @@ def newtons_method(
         if not file:
             print(output_string)
         else:
-            file.write(output_string + '\n')
+            file.write(output_string + "\n")
         row_output(0, p_0, file)
 
     # STEP 1: set i = 1
@@ -52,7 +56,7 @@ def newtons_method(
                 TOL = {}
                 """).format(p_0, f_0, i, tol)
             if table_output:
-                output_string = '-' * 37 + '\n' + output_string
+                output_string = "-" * 37 + "\n" + output_string
             if not file:
                 print(output_string)
             else:
@@ -63,12 +67,14 @@ def newtons_method(
         i += 1
 
     # STEP 7: The procedure was unsuccessful
-    output_string = cleandoc("""\
+    output_string = cleandoc(
+        """\
           Iteration number {} gave approximation {:.10f}, 
           with f(P) = {:.10f} not within tolerance {}.
-          """.format(i, p_0, f_0, tol))
+          """.format(i, p_0, f_0, tol)
+    )
     if table_output:
-        output_string = '-' * 37 + '\n' + output_string
+        output_string = "-" * 37 + "\n" + output_string
     if not file:
         print(output_string)
     else:

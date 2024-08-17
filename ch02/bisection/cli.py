@@ -13,17 +13,18 @@ def predefined_function(x: float) -> float:
 
 def parse_file_input(input_file: TextIO) -> dict:
     """Parse the endpoints, tolerance, and maximum number of inputs supplied in a CSV file."""
-    vals = input_file.read().split(',')
+    vals = input_file.read().split(",")
     a: float = float(vals[0])
     b: float = float(vals[1])
     tol: float = float(vals[2])
     n_0: int = int(vals[3])
 
-    return {"a": a, 'b': b, 'tol': tol, 'n_0': n_0}
+    return {"a": a, "b": b, "tol": tol, "n_0": n_0}
 
 
-def check_input_params(f: Callable[[float], float],
-                       a: float, b: float, tol: float, n_0: int) -> None:
+def check_input_params(
+    f: Callable[[float], float], a: float, b: float, tol: float, n_0: int
+) -> None:
     """Check that the endpoints are not the same, the function values at the
     endpoints f(a) and f(b) have opposite signs, the tolerance is positive,
     and the number of iterations is positive.
@@ -58,57 +59,55 @@ def main():
 
     parser.add_argument(
         "a",
-        nargs='?',
+        nargs="?",
         default=None,
         type=float,
-        help="The left endpoint of the interval."
+        help="The left endpoint of the interval.",
     )
     parser.add_argument(
         "b",
-        nargs='?',
+        nargs="?",
         default=None,
         type=float,
-        help="The right endpoint of the interval."
+        help="The right endpoint of the interval.",
     )
     parser.add_argument(
         "--function",
-        nargs='?',
+        nargs="?",
         default=None,
         type=str,
-        help="A function continuous on the endpoints a and b."
+        help="A function continuous on the endpoints a and b.",
     )
     parser.add_argument(
         "--tol",
-        nargs='?',
+        nargs="?",
         default=1e-6,
         type=float,
-        help="The tolerance for the function."
+        help="The tolerance for the function.",
     )
     parser.add_argument(
         "--n_0",
-        nargs='?',
+        nargs="?",
         default=100,
         type=int,
-        help="The maximum number of iterations."
+        help="The maximum number of iterations.",
     )
     parser.add_argument(
         "--input_file",
-        nargs='?',
+        nargs="?",
         default=None,
-        type=argparse.FileType('r'),
-        help="The name of the input file."
+        type=argparse.FileType("r"),
+        help="The name of the input file.",
     )
     parser.add_argument(
         "--output_file",
-        nargs='?',
+        nargs="?",
         default=None,
-        type=argparse.FileType('w'),
-        help="The name of the output file."
+        type=argparse.FileType("w"),
+        help="The name of the output file.",
     )
     parser.add_argument(
-        "--table_output",
-        action="store_true",
-        help="Flag for table output."
+        "--table_output", action="store_true", help="Flag for table output."
     )
 
     args = parser.parse_args()
@@ -120,12 +119,16 @@ def main():
 
     if args.input_file:
         if args.a or args.b:
-            raise IOError("If an input file has been defined, no other input parameters must be defined.")
+            raise IOError(
+                "If an input file has been defined, no other input parameters must be defined."
+            )
         params = parse_file_input(args.input_file)
         a, b, tol, n_0 = params["a"], params["b"], params["tol"], params["n_0"]
     else:
         if args.a is None or args.b is None:
-            raise IOError("If an input file has not been defined, the endpoints must be specified as arguments.")
+            raise IOError(
+                "If an input file has not been defined, the endpoints must be specified as arguments."
+            )
         a, b, tol, n_0 = args.a, args.b, args.tol, args.n_0
 
     check_input_params(function, a, b, tol, n_0)
@@ -133,13 +136,25 @@ def main():
     if args.output_file:
         args.output_file.write("This is the Bisection Algorithm.\n")
         _ = bisect(
-            function=function, a=a, b=b, tol=tol, n_0=n_0, file=args.output_file, table_output=True
+            function=function,
+            a=a,
+            b=b,
+            tol=tol,
+            n_0=n_0,
+            file=args.output_file,
+            table_output=True,
         )
         args.output_file.close()
     else:
         print("This is the Bisection Algorithm.")
         _ = bisect(
-            function=function, a=a, b=b, tol=tol, n_0=n_0, file=None, table_output=args.table_output
+            function=function,
+            a=a,
+            b=b,
+            tol=tol,
+            n_0=n_0,
+            file=None,
+            table_output=args.table_output,
         )
 
 

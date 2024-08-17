@@ -6,8 +6,8 @@ from pade_rational_approximation import pade_rational_approximation
 
 
 def parse_file_input(input_file: TextIO) -> dict:
-    """Parse the values for m, n, and Maclaurin polynomial coefficients.""" 
-    vals = input_file.read().split(',')
+    """Parse the values for m, n, and Maclaurin polynomial coefficients."""
+    vals = input_file.read().split(",")
     m = int(vals[0])
     n = int(vals[1])
     maclaurin_coeffs = []
@@ -17,12 +17,12 @@ def parse_file_input(input_file: TextIO) -> dict:
         except ValueError as _:
             break
 
-    return {'m': m, 'n': n, 'maclaurin_coeffs': maclaurin_coeffs}
+    return {"m": m, "n": n, "maclaurin_coeffs": maclaurin_coeffs}
 
 
 def check_input_params(
-        m: int, n: int, maclaurin_coeffs: list[float]
-                       ) -> list[int, int, list[float]]:
+    m: int, n: int, maclaurin_coeffs: list[float]
+) -> list[int, int, list[float]]:
     """Check that m and n are nonnegative and that the Maclaurin coefficients
     are of order N = m + n."""
     if m < 0 or n < 0:
@@ -39,38 +39,38 @@ def main():
 
     parser.add_argument(
         "m",
-        nargs='?',
+        nargs="?",
         default=None,
         type=int,
-        help="The degree of the denominator polynomial."
+        help="The degree of the denominator polynomial.",
     )
     parser.add_argument(
         "n",
-        nargs='?',
+        nargs="?",
         default=None,
         type=int,
-        help="The degree of the numerator polynomial."
+        help="The degree of the numerator polynomial.",
     )
     parser.add_argument(
         "--maclaurin_coeffs",
-        nargs='+',
+        nargs="+",
         default=None,
         type=float,
-        help="The Maclaurin coefficients for the polynomial of degree m+n."
+        help="The Maclaurin coefficients for the polynomial of degree m+n.",
     )
     parser.add_argument(
         "--input-file",
-        nargs='?',
+        nargs="?",
         default=None,
-        type=argparse.FileType('r'),
-        help="The name of the input file."
+        type=argparse.FileType("r"),
+        help="The name of the input file.",
     )
     parser.add_argument(
         "--output-file",
-        nargs='?',
+        nargs="?",
         default=None,
-        type=argparse.FileType('w'),
-        help="The name of the output file."
+        type=argparse.FileType("w"),
+        help="The name of the output file.",
     )
 
     args = parser.parse_args()
@@ -78,36 +78,35 @@ def main():
     if args.input_file is not None:
         if args.m or args.n or args.maclaurin_coeffs:
             raise IOError(
-"""If an input file has been defined, no other input parameters must be defined."""
-                )
+                """If an input file has been defined, no other input parameters must be defined."""
+            )
         params = parse_file_input(args.input_file)
-        m, n = params["m"], params["n"], 
+        m, n = (
+            params["m"],
+            params["n"],
+        )
         maclaurin_coeffs = params["maclaurin_coeffs"]
     else:
         if args.m is None or args.n is None:
             raise IOError(
-"""If an input file has not been defined, m and n must be specified as arguments,
+                """If an input file has not been defined, m and n must be specified as arguments,
 along with the Maclaurin coefficients a0, a1, ..., a_(m+n)"""
-                )
+            )
         m, n = args.m, args.n
         maclaurin_coeffs = args.maclaurin_coeffs
 
     check_input_params(m, n, maclaurin_coeffs)
 
     if args.output_file is not None:
-        args.output_file.write(
-            "This is the Pade Rational Approximation.\n"
-                )
+        args.output_file.write("This is the Pade Rational Approximation.\n")
         _ = pade_rational_approximation(
-            m=m, n=n, file=args.output_file, maclaurin_coeffs=maclaurin_coeffs 
+            m=m, n=n, file=args.output_file, maclaurin_coeffs=maclaurin_coeffs
         )
         args.output_file.close()
     else:
-        print(
-            "This is the Pade Rational Approximation."
-                )
+        print("This is the Pade Rational Approximation.")
         _ = pade_rational_approximation(
-            m=m, n=n, file=None, maclaurin_coeffs=maclaurin_coeffs 
+            m=m, n=n, file=None, maclaurin_coeffs=maclaurin_coeffs
         )
 
 

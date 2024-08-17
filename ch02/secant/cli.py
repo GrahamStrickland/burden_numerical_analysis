@@ -12,13 +12,13 @@ def predefined_function(x: float) -> float:
 
 def parse_file_input(input_file: TextIO) -> dict:
     """Parse the initial approximations, tolerance, and maximum number of inputs supplied in a CSV file."""
-    vals = input_file.read().split(',')
+    vals = input_file.read().split(",")
     p_0: float = float(vals[0])
     p_1: float = float(vals[1])
     tol: float = float(vals[2])
     n_0: int = int(vals[3])
 
-    return {'p_0': p_0, 'p_1': p_1, 'tol': tol, 'n_0': n_0}
+    return {"p_0": p_0, "p_1": p_1, "tol": tol, "n_0": n_0}
 
 
 def check_input_params(p_0: float, p_1: float, tol: float, n_0: int) -> None:
@@ -41,57 +41,55 @@ def main():
 
     parser.add_argument(
         "p_0",
-        nargs='?',
+        nargs="?",
         default=None,
         type=float,
-        help="The first initial approximation."
+        help="The first initial approximation.",
     )
     parser.add_argument(
         "p_1",
-        nargs='?',
+        nargs="?",
         default=None,
         type=float,
-        help="The second initial approximation."
+        help="The second initial approximation.",
     )
     parser.add_argument(
         "--function",
-        nargs='?',
+        nargs="?",
         default=None,
         type=str,
-        help="A function continuous in some neighbourhood of p_0."
+        help="A function continuous in some neighbourhood of p_0.",
     )
     parser.add_argument(
         "--tol",
-        nargs='?',
+        nargs="?",
         default=1e-6,
         type=float,
-        help="The tolerance for the function."
+        help="The tolerance for the function.",
     )
     parser.add_argument(
         "--n_0",
-        nargs='?',
+        nargs="?",
         default=100,
         type=int,
-        help="The maximum number of iterations."
+        help="The maximum number of iterations.",
     )
     parser.add_argument(
         "--input_file",
-        nargs='?',
+        nargs="?",
         default=None,
-        type=argparse.FileType('r'),
-        help="The name of the input file."
+        type=argparse.FileType("r"),
+        help="The name of the input file.",
     )
     parser.add_argument(
         "--output_file",
-        nargs='?',
+        nargs="?",
         default=None,
-        type=argparse.FileType('w'),
-        help="The name of the output file."
+        type=argparse.FileType("w"),
+        help="The name of the output file.",
     )
     parser.add_argument(
-        "--table_output",
-        action="store_true",
-        help="Flag for table output."
+        "--table_output", action="store_true", help="Flag for table output."
     )
 
     args = parser.parse_args()
@@ -103,7 +101,9 @@ def main():
 
     if args.input_file:
         if args.p_0:
-            raise IOError("If an input file has been defined, no other input parameters must be defined.")
+            raise IOError(
+                "If an input file has been defined, no other input parameters must be defined."
+            )
         params = parse_file_input(args.input_file)
         p_0, p_1, tol, n_0 = params["p_0"], params["p_1"], params["tol"], params["n_0"]
     else:
@@ -119,15 +119,25 @@ def main():
         print("")
         args.output_file.write("This is the Secant Method Algorithm.\n")
         _ = secant_method(
-            function=function, p_0=p_0, p_1=p_1, tol=tol, n_0=n_0,
-            file=args.output_file, table_output=True
+            function=function,
+            p_0=p_0,
+            p_1=p_1,
+            tol=tol,
+            n_0=n_0,
+            file=args.output_file,
+            table_output=True,
         )
         args.output_file.close()
     else:
         print("This is the Secant Method Algorithm.")
         _ = secant_method(
-            function=function, p_0=p_0, p_1=p_1, tol=tol, n_0=n_0,
-            file=None, table_output=args.table_output
+            function=function,
+            p_0=p_0,
+            p_1=p_1,
+            tol=tol,
+            n_0=n_0,
+            file=None,
+            table_output=args.table_output,
         )
 
 

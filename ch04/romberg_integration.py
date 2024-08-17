@@ -8,11 +8,11 @@ import math
 def inp_vals(OK, a, b, n, TOL, MAX):
     OK = False
     ans = input("Have you defined the function f before starting this program? (Y/N): ")
-    if ans == 'Y' or ans == 'y':
+    if ans == "Y" or ans == "y":
         OK = True
 
         OK = False
-        while OK == False:
+        while not OK:
             # Enter amount for lower and upper bounds (a and b).
             a = float(input("Please enter a value for the lower bound (a): "))
             b = float(input("Please enter a value for the upper bound (b): "))
@@ -30,7 +30,7 @@ def inp_vals(OK, a, b, n, TOL, MAX):
                 b = x
 
         OK = False
-        while OK == False:
+        while not OK:
             # Input value for number of rows or tolerance.
             print("Please input a value for the number of rows (n)")
             n = int(input("Enter -1 if tolerance is to be input instead: "))
@@ -39,7 +39,7 @@ def inp_vals(OK, a, b, n, TOL, MAX):
             if n <= 0:
                 n = 2
                 TOL = float(input("Enter a value for the tolerance: "))
-                if (TOL <= 0.0):
+                if TOL <= 0.0:
                     print("Tolerance must be greater than 0.0.")
                 else:
                     MAX = int(input("Please enter a maximum number of rows: "))
@@ -54,13 +54,13 @@ def inp_vals(OK, a, b, n, TOL, MAX):
 
         # Return values for function.
         return OK, a, b, n, TOL, MAX
-    else: # If answer is not yes, terminate program.
+    else:  # If answer is not yes, terminate program.
         print("Terminating program so that functions can be defined.")
         return
 
 
 def f(x):
-    return math.cos(x)**2
+    return math.cos(x) ** 2
 
 
 def main():
@@ -86,18 +86,18 @@ def main():
         while i < n:
             # STEP 4: Set R[2,1] (Approximation from Trapezoidal method).
             sum = 0.0
-            exponent = int(2**(i-1))
-            for k in range(1, exponent+1):
-                sum += f(a + (k-0.5)*h)
-            R[1][0] = 0.5 * (R[0][0] + h*sum)
+            exponent = int(2 ** (i - 1))
+            for k in range(1, exponent + 1):
+                sum += f(a + (k - 0.5) * h)
+            R[1][0] = 0.5 * (R[0][0] + h * sum)
 
             # STEP 5: For j = 2,..., i set R[2,j] (Extrapolation).
-            for j in range(1, i+1):
-                R[1][j] = R[1][j-1] + (R[1][j-1] - R[0][j-1]) / (4**j - 1)
+            for j in range(1, i + 1):
+                R[1][j] = R[1][j - 1] + (R[1][j - 1] - R[0][j - 1]) / (4**j - 1)
 
             # STEP 6: Output R[2,j] for j = 1, 2,..., i.
             str = f"R[{i+1}]\t"
-            for j in range(i+1):
+            for j in range(i + 1):
                 str = str + "{:.8f}\t".format(R[1][j])
             print(str)
 
@@ -106,19 +106,20 @@ def main():
 
             # Check tolerance and update R if necessary.
             if TOL > 0.0:
-                if abs(R[1][i] - R[0][i-1]) > TOL and i+1 < MAX:
+                if abs(R[1][i] - R[0][i - 1]) > TOL and i + 1 < MAX:
                     n = n + 1
                     R[0].append(0.0)
                     R[1].append(0.0)
 
             # STEP 8: For j = 1, 2,..., i update row 1 of R.
-            for j in range(i+1):
+            for j in range(i + 1):
                 R[0][j] = R[1][j]
 
             # Increment iterator.
             i = i + 1
-  
+
     # STEP 9: Stop.
 
 
-main()
+if __name__ == "__main__":
+    main()

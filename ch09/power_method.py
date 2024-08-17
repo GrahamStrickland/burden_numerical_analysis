@@ -3,23 +3,23 @@ import numpy as np
 
 
 def power_method(
-        n: int, A: np.array, x: np.array, tol: float, max_num: int
+    n: int, A: np.array, x: np.array, tol: float, max_num: int
 ) -> tuple[float, np.array]:
-    """To approximate the dominant eigenvalue and associated eigenvector of the 
+    """To approximate the dominant eigenvalue and associated eigenvector of the
     n x n matrix A given a nonzero vector x:
-    INPUT dimension n; matrix A; vector x; tolerance TOL; maximum number 
+    INPUT dimension n; matrix A; vector x; tolerance TOL; maximum number
     of iterations N.
-    OUTPUT approximate eigenvalue mu; approximate eigenvector x 
+    OUTPUT approximate eigenvalue mu; approximate eigenvector x
     (with ||x||_infty = 1)
     or a message that the maximum number of iterations was exceeded
     """
-    mu = 0.
-    err = .0
+    mu = 0.0
+    err = 0.0
 
     # STEP 1
     k = 0
 
-    # STEP 2: Find the smallest integer p with 1 <= p <= n 
+    # STEP 2: Find the smallest integer p with 1 <= p <= n
     #         and |x_p| = ||x||_inf.
     p = 0
     for i in range(len(x)):
@@ -42,7 +42,7 @@ def power_method(
         # STEP 6
         mu = y[p]
 
-        # STEP 7: Find the smallest integer p with 1 <= p <= n 
+        # STEP 7: Find the smallest integer p with 1 <= p <= n
         #         and |y_p| = ||y||_inf.
         p = 0
         for i in range(n):
@@ -51,7 +51,7 @@ def power_method(
                 break
 
         # STEP 8
-        if y[p] == 0.:
+        if y[p] == 0.0:
             print(f"Eigenvector {x}")
             print("A has the eigenvalue 0, select new vector x and restart.")
             return (mu, x)
@@ -59,7 +59,7 @@ def power_method(
         # STEP 9: Set ERR = ||x - (y/y)_p)||_inf;
         #                     x = y/y_p.
         try:
-            err = max(abs(x - (y/y[p])))
+            err = max(abs(x - (y / y[p])))
             x = y / y[p]
         except ZeroDivisionError as e:
             print(e)
@@ -69,7 +69,7 @@ def power_method(
         if err < tol:
             print(f"The procedure was successful after {k} iterations.")
             return (mu, x)
-    
+
         # STEP 11
         k = k + 1
 
@@ -80,10 +80,8 @@ def power_method(
 
 def main():
     n = 3
-    A = np.array([[2., 0., 1.],
-                  [-22., -3., 10.],
-                  [-12., 0., 9.]])
-    x = np.array([1., 1., 1.])
+    A = np.array([[2.0, 0.0, 1.0], [-22.0, -3.0, 10.0], [-12.0, 0.0, 9.0]])
+    x = np.array([1.0, 1.0, 1.0])
     tol = 1e-9
     N = 200
 

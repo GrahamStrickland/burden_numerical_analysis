@@ -8,122 +8,148 @@ import math
 
 # define function f(x)
 def f(x):
-  return math.exp(6.0 * x) + (1.441 * math.exp(2.0 * x)) - (2.079 * math.exp(4.0 * x)) - 0.3330
+    return (
+        math.exp(6.0 * x)
+        + (1.441 * math.exp(2.0 * x))
+        - (2.079 * math.exp(4.0 * x))
+        - 0.3330
+    )
 
 
 # define derivative of f(x), function f'(x)
 def fP(x):
-  return (6.0 * math.exp(6.0 * x)) + (2.882 * math.exp(2.0 * x)) - (8.316 * math.exp(4.0 * x))
+    return (
+        (6.0 * math.exp(6.0 * x))
+        + (2.882 * math.exp(2.0 * x))
+        - (8.316 * math.exp(4.0 * x))
+    )
 
 
 # define derivative of f'(x), function f''(x)
 def fDP(x):
-  return (36.0 * math.exp(6.0 * x)) + (5.764 * math.exp(2.0 * x)) - (33.264 * math.exp(4.0 * x))
+    return (
+        (36.0 * math.exp(6.0 * x))
+        + (5.764 * math.exp(2.0 * x))
+        - (33.264 * math.exp(4.0 * x))
+    )
 
 
 # define function to input values
 def inp_vals(OK, p_0, TOL, n_0):
-  # set flag for input validation to false
-  OK = False
+    # set flag for input validation to false
+    OK = False
 
-  # check that function and derivatives have been defined
-  ans = input("Have the functions f(x) and its derivatives, f'(x) and f''(x) been defined? (Y/N) ")
+    # check that function and derivatives have been defined
+    ans = input(
+        "Have the functions f(x) and its derivatives, f'(x) and f''(x) been defined? (Y/N) "
+    )
 
-  if ans == 'Y' or ans == 'y':
-    while OK == False:
-      # input initial approximation p0
-      p_0 = float(input("Please input the initial approximation (p0): "))
+    if ans == "Y" or ans == "y":
+        while not OK:
+            # input initial approximation p0
+            p_0 = float(input("Please input the initial approximation (p0): "))
 
-      # input TOL and check for positive value
-      TOL = float(input("Please input the error tolerance (TOL): "))
-      if TOL <= 0.0:
-        print("TOL must be a positive value.")
-      else:
-        OK = True
+            # input TOL and check for positive value
+            TOL = float(input("Please input the error tolerance (TOL): "))
+            if TOL <= 0.0:
+                print("TOL must be a positive value.")
+            else:
+                OK = True
 
-      # input maximum number of iterations and check for positive value
-      OK = False
-      n_0 = int(input("Please input the maximum number of iterations (N0): "))
-      if n_0 <= 0:
-        print("N0 must be a positive integer.")
-      else:
-        OK = True
+            # input maximum number of iterations and check for positive value
+            OK = False
+            n_0 = int(input("Please input the maximum number of iterations (N0): "))
+            if n_0 <= 0:
+                print("N0 must be a positive integer.")
+            else:
+                OK = True
 
-    # return values if function has been defined
-    if OK:
-      return OK, p_0, TOL, n_0
+        # return values if function has been defined
+        if OK:
+            return OK, p_0, TOL, n_0
 
-  # terminate program if function has not been defined  
-  else:
-    print("Terminating program so that functions can be defined.")
-    return
+    # terminate program if function has not been defined
+    else:
+        print("Terminating program so that functions can be defined.")
+        return
 
 
 # define function to output row of table
 def row_outp(n, p):
-  print("{}\t\t{:.10f}\n".format(n, p))
+    print("{}\t\t{:.10f}\n".format(n, p))
 
 
 # define main function
 def main():
-  # declare variables with temporary values
-  OK = False
-  p_0 = TOL = 0.0
-  n_0 = 0
+    # declare variables with temporary values
+    OK = False
+    p_0 = TOL = 0.0
+    n_0 = 0
 
-  # print introduction
-  print("This is Newton's method modified")
+    # print introduction
+    print("This is Newton's method modified")
 
-  # call input function to input values
-  OK, p_0, TOL, n_0 = inp_vals(OK, p_0, TOL, n_0)
+    # call input function to input values
+    OK, p_0, TOL, n_0 = inp_vals(OK, p_0, TOL, n_0)
 
-  # check if output must be table or answer only
-  OK = False
-  while OK == False:
-    outp = int(input("Would you like to print a table (0) or the answer only (1)? "))
+    # check if output must be table or answer only
+    OK = False
+    while not OK:
+        outp = int(
+            input("Would you like to print a table (0) or the answer only (1)? ")
+        )
 
-    if outp == 0 or outp == 1:
-      OK = True
+        if outp == 0 or outp == 1:
+            OK = True
 
-    # output table heading
-    if outp == 0:
-      print('-' * 27)
-      print("n\t\tP")
-      print('-' * 27)
-      row_outp(0, p_0)
-  
-  if OK:
-    f_0 = f(p_0)
-    # STEP 1: set i = 1
-    i = 1
+        # output table heading
+        if outp == 0:
+            print("-" * 27)
+            print("n\t\tP")
+            print("-" * 27)
+            row_outp(0, p_0)
 
-    # STEP 2: while i <= N0 do steps 3-6
-    while i <= n_0 and OK:
-      # STEP 3: Compute p_i
-      fP_0 = fP(p_0)
-      fDP_0 = fDP(p_0)
-      d = f_0 * fP_0 / ((fP_0**2) - (f_0 * fDP_0))
-
-      # STEP 6: update p0
-      p_0 = p_0 - d
-      f_0 = f(p_0)
-
-      # if table output selected, output row
-      if outp == 0:
-        row_outp(i, p_0)
-
-      # STEP 4: if p - p0 < TOL then the procedure was successful
-      if abs(d) < TOL:
-        print("\nApproximate solution P = {:.10f}\nf(P) = {:.10}\nNumber of iterations = {}\nTOL = {}\n".format(p_0, f_0, i, TOL))
-        OK = False
-        return
-
-      # STEP 5: increment iterator
-      i += 1
-
-    # STEP 7: The procedure was unsuccessful
     if OK:
-      print("\nIteration number {} gave approximation {:.10f}, with f(P) = {:.10f} not within tolerance {}.".format(n_0, p_0, f_0, TOL))
+        f_0 = f(p_0)
+        # STEP 1: set i = 1
+        i = 1
+
+        # STEP 2: while i <= N0 do steps 3-6
+        while i <= n_0 and OK:
+            # STEP 3: Compute p_i
+            fP_0 = fP(p_0)
+            fDP_0 = fDP(p_0)
+            d = f_0 * fP_0 / ((fP_0**2) - (f_0 * fDP_0))
+
+            # STEP 6: update p0
+            p_0 = p_0 - d
+            f_0 = f(p_0)
+
+            # if table output selected, output row
+            if outp == 0:
+                row_outp(i, p_0)
+
+            # STEP 4: if p - p0 < TOL then the procedure was successful
+            if abs(d) < TOL:
+                print(
+                    "\nApproximate solution P = {:.10f}\nf(P) = {:.10}\nNumber of iterations = {}\nTOL = {}\n".format(
+                        p_0, f_0, i, TOL
+                    )
+                )
+                OK = False
+                return
+
+            # STEP 5: increment iterator
+            i += 1
+
+        # STEP 7: The procedure was unsuccessful
+        if OK:
+            print(
+                "\nIteration number {} gave approximation {:.10f}, with f(P) = {:.10f} not within tolerance {}.".format(
+                    n_0, p_0, f_0, TOL
+                )
+            )
 
 
-main()
+if __name__ == "__main__":
+    main()

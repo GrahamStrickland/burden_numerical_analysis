@@ -8,8 +8,13 @@ SHORT_BORDER = 28
 
 
 def eulers_method(
-        function: Callable[[float, ...], float], a: float, b: float, alpha: float,
-        n: int, file: TextIO = None, solution: Callable[[float], float] = None
+    function: Callable[[float, ...], float],
+    a: float,
+    b: float,
+    alpha: float,
+    n: int,
+    file: TextIO = None,
+    solution: Callable[[float], float] = None,
 ) -> list[float]:
     """To approximate the solution of the initial-value problem y' = f(t, y),
     a <= t <= b, y(a) = alpha, at (N+1) equally spaced numbers in the interval [a, b]:
@@ -25,7 +30,7 @@ def eulers_method(
     if not file:
         print(output_string)
     else:
-        file.write(output_string + '\n')
+        file.write(output_string + "\n")
 
     # STEP 1:
     i: int = 1
@@ -55,9 +60,9 @@ def eulers_method(
 
     # STEP 5: stop
     if solution:
-        output_string = '-' * LONG_BORDER + '\n'
+        output_string = "-" * LONG_BORDER + "\n"
     else:
-        output_string = '-' * SHORT_BORDER + '\n'
+        output_string = "-" * SHORT_BORDER + "\n"
 
     if not file:
         print(output_string)
@@ -67,15 +72,17 @@ def eulers_method(
 
 
 def row_output(
-        t_i: float, w_i: float, file: TextIO, solution: Callable[[float], float] = None
+    t_i: float, w_i: float, file: TextIO, solution: Callable[[float], float] = None
 ) -> None:
     """Function to output row of table."""
     if solution:
-        output = "{:.1f}\t\t{:.10f}\t\t{:.10f}\t\t{:.10f}".format(t_i, w_i, solution(t_i), abs(solution(t_i) - w_i))
+        output = "{:.1f}\t\t{:.10f}\t\t{:.10f}\t\t{:.10f}".format(
+            t_i, w_i, solution(t_i), abs(solution(t_i) - w_i)
+        )
     else:
         output = "{:.1f}\t\t{:.10f}".format(t_i, w_i)
 
     if not file:
         print(output)
     else:
-        file.write(output + '\n')
+        file.write(output + "\n")

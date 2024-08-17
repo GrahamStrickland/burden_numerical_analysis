@@ -9,25 +9,36 @@ def test_modified_eulers_method() -> None:
     def func(t: float, y: float) -> float:
         return y - t**2 + 1.0
 
-    a = 0.
-    b = 2.
-    alpha = .5
+    a = 0.0
+    b = 2.0
+    alpha = 0.5
     n = 10
 
     obs = modified_eulers_method(function=func, a=a, b=b, alpha=alpha, n=n)
-    exp = [0.5000000, 0.8260000, 1.2069200, 1.6372424, 2.1102357, 2.6176876,
-           3.1495789, 3.6936862, 4.2350972, 4.7556185, 5.2330546]
+    exp = [
+        0.5000000,
+        0.8260000,
+        1.2069200,
+        1.6372424,
+        2.1102357,
+        2.6176876,
+        3.1495789,
+        3.6936862,
+        4.2350972,
+        4.7556185,
+        5.2330546,
+    ]
 
     assert obs == approx(exp, abs=1e-7)
 
 
 def test_modified_eulers_method2() -> None:
     def func(t: float, y: float) -> float:
-        return t*math.exp(3.*t) - 2.*y
+        return t * math.exp(3.0 * t) - 2.0 * y
 
-    a = 0.
-    b = 1.
-    alpha = 0.
+    a = 0.0
+    b = 1.0
+    alpha = 0.0
     n = 2
 
     obs = modified_eulers_method(function=func, a=a, b=b, alpha=alpha, n=n)
@@ -38,27 +49,26 @@ def test_modified_eulers_method2() -> None:
 
 def test_modified_eulers_method3() -> None:
     def func(t: float, y: float) -> float:
-        return 1. + (t-y)**2
+        return 1.0 + (t - y) ** 2
 
-    a = 2.
-    b = 3.
-    alpha = 1.
+    a = 2.0
+    b = 3.0
+    alpha = 1.0
     n = 2
 
     obs = modified_eulers_method(function=func, a=a, b=b, alpha=alpha, n=n)
     exp = [alpha, 1.8125, 2.4815531]
-
 
     assert obs == approx(exp, abs=1e-7)
 
 
 def test_modified_eulers_method4() -> None:
     def func(t: float, y: float) -> float:
-        return 1. + (y/t)
+        return 1.0 + (y / t)
 
-    a = 1.
-    b = 2.
-    alpha = 2.
+    a = 1.0
+    b = 2.0
+    alpha = 2.0
     n = 4
 
     obs = modified_eulers_method(function=func, a=a, b=b, alpha=alpha, n=n)
@@ -69,11 +79,11 @@ def test_modified_eulers_method4() -> None:
 
 def test_modified_eulers_method5() -> None:
     def func(t: float, y: float) -> float:
-        return math.cos(2.*t) + math.sin(3.*t)
+        return math.cos(2.0 * t) + math.sin(3.0 * t)
 
-    a = 0.
-    b = 1.
-    alpha = 1.
+    a = 0.0
+    b = 1.0
+    alpha = 1.0
     n = 4
 
     obs = modified_eulers_method(function=func, a=a, b=b, alpha=alpha, n=n)
@@ -84,11 +94,11 @@ def test_modified_eulers_method5() -> None:
 
 def test_modified_eulers_method6() -> None:
     def func(t: float, y: float) -> float:
-        return y/t - (y/t)**2
+        return y / t - (y / t) ** 2
 
-    a = 1.
-    b = 2.
-    alpha = 1.
+    a = 1.0
+    b = 2.0
+    alpha = 1.0
     n = 10
 
     obs = modified_eulers_method(function=func, a=a, b=b, alpha=alpha, n=n)
@@ -102,28 +112,29 @@ def test_modified_eulers_method6() -> None:
 
 def test_modified_eulers_method7() -> None:
     def func(t: float, y: float) -> float:
-        return 1. + y/t + (y/t)**2
+        return 1.0 + y / t + (y / t) ** 2
 
-    a = 1.
-    b = 3.
-    alpha = 0.
+    a = 1.0
+    b = 3.0
+    alpha = 0.0
     n = 10
 
     obs = modified_eulers_method(function=func, a=a, b=b, alpha=alpha, n=n)
-    exp = [.4850495, 1.6384229, 2.8250651, 5.7075699]
+    exp = [0.4850495, 1.6384229, 2.8250651, 5.7075699]
 
     assert obs[2] == approx(exp[0], abs=1e-7)
     assert obs[5] == approx(exp[1], abs=1e-7)
     assert obs[7] == approx(exp[2], abs=1e-7)
     assert obs[10] == approx(exp[3], abs=1e-7)
 
+
 def test_modified_eulers_method8() -> None:
     def func(t: float, y: float) -> float:
-        return -(y+1.)*(y+3.)
+        return -(y + 1.0) * (y + 3.0)
 
-    a = 0.
-    b = 2.
-    alpha = -2.
+    a = 0.0
+    b = 2.0
+    alpha = -2.0
     n = 10
 
     obs = modified_eulers_method(function=func, a=a, b=b, alpha=alpha, n=n)
@@ -134,17 +145,18 @@ def test_modified_eulers_method8() -> None:
     assert obs[7] == approx(exp[2], abs=1e-7)
     assert obs[10] == approx(exp[3], abs=1e-7)
 
+
 def test_modified_eulers_method9() -> None:
     def func(t: float, y: float) -> float:
-        return -5.*y + 5.*t**2 + 2.*t
+        return -5.0 * y + 5.0 * t**2 + 2.0 * t
 
-    a = 0.
-    b = 1.
-    alpha = 1./3.
+    a = 0.0
+    b = 1.0
+    alpha = 1.0 / 3.0
     n = 10
 
     obs = modified_eulers_method(function=func, a=a, b=b, alpha=alpha, n=n)
-    exp = [.1742708, .28782, .5088359, 1.0096377]
+    exp = [0.1742708, 0.28782, 0.5088359, 1.0096377]
 
     assert obs[2] == approx(exp[0], abs=1e-7)
     assert obs[5] == approx(exp[1], abs=1e-7)

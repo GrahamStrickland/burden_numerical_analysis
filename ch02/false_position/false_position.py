@@ -5,8 +5,13 @@ from typing import TextIO
 
 
 def false_position(
-        function: Callable[[float], float], p_0: float, p_1: float, tol: float, n_0: int,
-        file: TextIO = None, table_output: bool = False
+    function: Callable[[float], float],
+    p_0: float,
+    p_1: float,
+    tol: float,
+    n_0: int,
+    file: TextIO = None,
+    table_output: bool = False,
 ) -> float:
     """To find a solution to f(x) = 0 given the continuous function f
     on the interval [p0, p1] where f(p0) and f(p1) have different signs:
@@ -20,7 +25,7 @@ def false_position(
         if not file:
             print(output_string)
         else:
-            file.write(output_string + '\n')
+            file.write(output_string + "\n")
         row_output(0, p_0, file)
         row_output(1, p_1, file)
 
@@ -53,7 +58,7 @@ def false_position(
                 TOL = {}
                 """).format(p, f_p, i, tol)
             if table_output:
-                output_string = '-' * 37 + '\n' + output_string
+                output_string = "-" * 37 + "\n" + output_string
             if not file:
                 print(output_string)
             else:
@@ -74,13 +79,15 @@ def false_position(
             q_1 = q
 
     # STEP 8: The procedure was unsuccessful
-    output_string = cleandoc("""\
+    output_string = cleandoc(
+        """\
           Iteration number {} gave approximation {:.10f},
           with f(P) = {:.10f}
           not within tolerance {}.
-          """.format(i, p, f_p, tol))
+          """.format(i, p, f_p, tol)
+    )
     if table_output:
-        output_string = '-' * 37 + '\n' + output_string
+        output_string = "-" * 37 + "\n" + output_string
     if not file:
         print(output_string)
     else:

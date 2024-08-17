@@ -9,53 +9,55 @@
 
 # function for value input
 def inp(OK, n, xvals, F):
-  # Input n
-  OK = False
-  while not OK:
-    n = int(input("Please enter the number of points to be input (n): "))
-    if n > 0:
-      OK = True
-    else:
-      print("Please enter a positive value for n.")
-  
-  # Populate F as empty nested list
-  for i in range(n):
-    F.append([None for j in range(n)])
+    # Input n
+    OK = False
+    while not OK:
+        n = int(input("Please enter the number of points to be input (n): "))
+        if n > 0:
+            OK = True
+        else:
+            print("Please enter a positive value for n.")
 
-  # Assign x, xi for 1,...,n and F[i,0] for 1,....,n
-  OK = False
-  while not OK:
-    print("Please enter the values for the points x0, x1,..., xn: ")
+    # Populate F as empty nested list
     for i in range(n):
-      xvals.append(float(input(f"x{i}: ")))
-    print("Please enter the function values f(xi) at the points x0, x1,..., xn: ")
-    for j in range(n):
-      F[j][0] = float(input(f"f(x{j}): "))
-    OK = True
+        F.append([None for j in range(n)])
 
-  return OK, n, xvals, F
+    # Assign x, xi for 1,...,n and F[i,0] for 1,....,n
+    OK = False
+    while not OK:
+        print("Please enter the values for the points x0, x1,..., xn: ")
+        for i in range(n):
+            xvals.append(float(input(f"x{i}: ")))
+        print("Please enter the function values f(xi) at the points x0, x1,..., xn: ")
+        for j in range(n):
+            F[j][0] = float(input(f"f(x{j}): "))
+        OK = True
+
+    return OK, n, xvals, F
 
 
 def main():
-  # Assign initial variables
-  OK = False
-  n = 0
-  xvals = []
-  F = []
+    # Assign initial variables
+    OK = False
+    n = 0
+    xvals = []
+    F = []
 
-  # Print introduction and input values
-  print("This is Newton's Divided-Difference Formula.")
-  OK, n, xvals, F = inp(OK, n, xvals, F)
+    # Print introduction and input values
+    print("This is Newton's Divided-Difference Formula.")
+    OK, n, xvals, F = inp(OK, n, xvals, F)
 
-  if OK:
-    # STEP 1: Set F[i,j] for each value
-    for i in range(1, n):
-      for j in range(1, i+1):
-        F[i][j] = (F[i][j-1] - F[i-1][j-1]) / (xvals[i] - xvals[i-j])
+    if OK:
+        # STEP 1: Set F[i,j] for each value
+        for i in range(1, n):
+            for j in range(1, i + 1):
+                F[i][j] = (F[i][j - 1] - F[i - 1][j - 1]) / (xvals[i] - xvals[i - j])
 
-    # STEP 2: Output values in table format
-    for j in range(n):
-      print("F[{}][{}] = {}".format(j, j, F[j][j]))
+        # STEP 2: Output values in table format
+        for j in range(n):
+            print("F[{}][{}] = {}".format(j, j, F[j][j]))
 
 
-main()
+if __name__ == "__main__":
+    main()
+

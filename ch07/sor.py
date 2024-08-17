@@ -2,8 +2,14 @@
 import numpy as np
 
 
-def sor(a: np.array, n: int, b: np.array, x_0: np.array, omega: float, 
-        tol: float, max_iter: int
+def sor(
+    a: np.array,
+    n: int,
+    b: np.array,
+    x_0: np.array,
+    omega: float,
+    tol: float,
+    max_iter: int,
 ) -> np.array:
     """To solve Ax = b given the parameter omega and an initial approximation x0:
     INPUT the number of equations and unknowns n:
@@ -25,13 +31,15 @@ def sor(a: np.array, n: int, b: np.array, x_0: np.array, omega: float,
     while k <= max_iter:
         # STEP 3
         for i in range(n):
-            sum_1 = 0.
-            sum_2 = 0.
+            sum_1 = 0.0
+            sum_2 = 0.0
             for j in range(i):
-                sum_1 += a[i,j] * x[j]
-            for l in range(i+1, n):
-                sum_2 += a[i,l] * x_0[l]
-            x[i] = ((1.-omega) * x_0[i]) + (omega * (-sum_1-sum_2+b[i])) / a[i,i]
+                sum_1 += a[i, j] * x[j]
+            for l in range(i + 1, n):
+                sum_2 += a[i, l] * x_0[l]
+            x[i] = ((1.0 - omega) * x_0[i]) + (omega * (-sum_1 - sum_2 + b[i])) / a[
+                i, i
+            ]
 
         # STEP 4: If ||x - XO|| < TOL then procedure was successful.
         norm = abs(x[0] - x_0[0])
@@ -55,12 +63,10 @@ def sor(a: np.array, n: int, b: np.array, x_0: np.array, omega: float,
 
 
 def main() -> None:
-    a = np.array([[3., -1., 1.],
-                  [3., 6., 2.],
-                  [3., 3., 7.]])
+    a = np.array([[3.0, -1.0, 1.0], [3.0, 6.0, 2.0], [3.0, 3.0, 7.0]])
     n = 3
-    b = np.array([1., 0., 4.])
-    x_0 = np.array([0., 0., 0.])
+    b = np.array([1.0, 0.0, 4.0])
+    x_0 = np.array([0.0, 0.0, 0.0])
     omega = 1.2
     tol = 1e-3
     max_iter = 200

@@ -37,7 +37,7 @@ def test_false_position_poly() -> None:
 
 def test_false_position_poly_2() -> None:
     def f(x: float) -> float:
-        return x**3 - 2.0*x**2 - 5.0
+        return x**3 - 2.0 * x**2 - 5.0
 
     p_0: float = 1.0
     p_1: float = 4.0
@@ -52,7 +52,7 @@ def test_false_position_poly_2() -> None:
 
 def test_false_position_poly_3() -> None:
     def f(x: float) -> float:
-        return x**3 + 3.0*x**2 - 1.0
+        return x**3 + 3.0 * x**2 - 1.0
 
     p_0: float = -3.0
     p_1: float = -2.0
@@ -82,7 +82,7 @@ def test_false_position_trig_2() -> None:
 
 def test_false_position_trig_3() -> None:
     def f(x: float) -> float:
-        return x - 0.8 - 0.2*math.sin(x)
+        return x - 0.8 - 0.2 * math.sin(x)
 
     p_0: float = 0.0
     p_1: float = 1.57080

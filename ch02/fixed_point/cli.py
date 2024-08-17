@@ -7,17 +7,17 @@ from fixed_point import fixed_point
 
 
 def predefined_function(x: float) -> float:
-    return x**3 + 4.0*x**2 - 10.0
+    return x**3 + 4.0 * x**2 - 10.0
 
 
 def parse_file_input(input_file: TextIO) -> dict:
     """Parse the initial approximation, tolerance, and maximum number of inputs supplied in a CSV file."""
-    vals = input_file.read().split(',')
+    vals = input_file.read().split(",")
     p_0: float = float(vals[0])
     tol: float = float(vals[1])
     n_0: int = int(vals[2])
 
-    return {'p_0': p_0, 'tol': tol, 'n_0': n_0}
+    return {"p_0": p_0, "tol": tol, "n_0": n_0}
 
 
 def check_input_params(tol: float, n_0: int) -> None:
@@ -35,51 +35,45 @@ def main():
     parser = argparse.ArgumentParser(description=fixed_point.__doc__)
 
     parser.add_argument(
-        "p_0",
-        nargs='?',
-        default=None,
-        type=float,
-        help="The initial approximation."
+        "p_0", nargs="?", default=None, type=float, help="The initial approximation."
     )
     parser.add_argument(
         "--function",
-        nargs='?',
+        nargs="?",
         default=None,
         type=str,
-        help="A function continuous in some neighbourhood of p_0."
+        help="A function continuous in some neighbourhood of p_0.",
     )
     parser.add_argument(
         "--tol",
-        nargs='?',
+        nargs="?",
         default=1e-6,
         type=float,
-        help="The tolerance for the function."
+        help="The tolerance for the function.",
     )
     parser.add_argument(
         "--n_0",
-        nargs='?',
+        nargs="?",
         default=100,
         type=int,
-        help="The maximum number of iterations."
+        help="The maximum number of iterations.",
     )
     parser.add_argument(
         "--input_file",
-        nargs='?',
+        nargs="?",
         default=None,
-        type=argparse.FileType('r'),
-        help="The name of the input file."
+        type=argparse.FileType("r"),
+        help="The name of the input file.",
     )
     parser.add_argument(
         "--output_file",
-        nargs='?',
+        nargs="?",
         default=None,
-        type=argparse.FileType('w'),
-        help="The name of the output file."
+        type=argparse.FileType("w"),
+        help="The name of the output file.",
     )
     parser.add_argument(
-        "--table_output",
-        action="store_true",
-        help="Flag for table output."
+        "--table_output", action="store_true", help="Flag for table output."
     )
 
     args = parser.parse_args()
@@ -91,13 +85,15 @@ def main():
 
     if args.input_file:
         if args.p_0:
-            raise IOError("If an input file has been defined, no other input parameters must be defined.")
+            raise IOError(
+                "If an input file has been defined, no other input parameters must be defined."
+            )
         params = parse_file_input(args.input_file)
         p_0, tol, n_0 = params["p_0"], params["tol"], params["n_0"]
     else:
         if args.p_0 is None:
             raise IOError(
-              "If an input file has not been defined, the initial approximation must be specified as an argument."
+                "If an input file has not been defined, the initial approximation must be specified as an argument."
             )
         p_0, tol, n_0 = args.p_0, args.tol, args.n_0
 
@@ -107,13 +103,23 @@ def main():
         print("")
         args.output_file.write("This is the Fixed-point Iteration Algorithm.\n")
         _ = fixed_point(
-            function=function, p_0=p_0, tol=tol, n_0=n_0, file=args.output_file, table_output=True
+            function=function,
+            p_0=p_0,
+            tol=tol,
+            n_0=n_0,
+            file=args.output_file,
+            table_output=True,
         )
         args.output_file.close()
     else:
         print("This is the Fixed-point Iteration Algorithm.")
         _ = fixed_point(
-            function=function, p_0=p_0, tol=tol, n_0=n_0, file=None, table_output=args.table_output
+            function=function,
+            p_0=p_0,
+            tol=tol,
+            n_0=n_0,
+            file=None,
+            table_output=args.table_output,
         )
 
 

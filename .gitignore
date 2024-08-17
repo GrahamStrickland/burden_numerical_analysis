@@ -32,6 +32,7 @@ $HOME
 
 # Python files
 /venv
+.venv
 .coverage
 .pytest_cache
 __pycache__/

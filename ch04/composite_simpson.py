@@ -4,14 +4,15 @@
 # Output: approximation XI to I.
 import math
 
+
 def inp_vals(OK, a, b, n):
     OK = False
     ans = input("Have you defined the function f before starting this program? (Y/N): ")
-    if ans == 'Y' or ans == 'y':
+    if ans == "Y" or ans == "y":
         OK = True
 
         OK = False
-        while OK == False:
+        while not OK:
             # Enter amount for lower and upper bounds (a and b).
             a = float(input("Please enter a value for the lower bound (a): "))
             b = float(input("Please enter a value for the upper bound (b): "))
@@ -29,7 +30,7 @@ def inp_vals(OK, a, b, n):
                 b = x
 
         OK = False
-        while OK == False:
+        while not OK:
             # Input value for number of subintervals.
             n = int(input("Please input a value for the number of subintervals (n): "))
 
@@ -41,13 +42,19 @@ def inp_vals(OK, a, b, n):
 
         # Return values for function.
         return OK, a, b, n
-    else: # If answer is not yes, terminate program.
+    else:  # If answer is not yes, terminate program.
         print("Terminating program so that functions can be defined.")
         return
 
 
 def f(x):
-    return ((x-1)**(-1/5)) * (math.log(x) - (x-1) + ((x-1)**2)/2 - ((x-1)**3)/3 + ((x-1)**4)/4)
+    return ((x - 1) ** (-1 / 5)) * (
+        math.log(x)
+        - (x - 1)
+        + ((x - 1) ** 2) / 2
+        - ((x - 1) ** 3) / 3
+        + ((x - 1) ** 4) / 4
+    )
 
 
 def main():
@@ -61,7 +68,7 @@ def main():
 
     if OK:
         # STEP 1: Set h.
-        h = (b-a) / n
+        h = (b - a) / n
 
         # STEP 2: Set XI0, XI1, and XI2.
         XI0 = f(a) + f(b)
@@ -71,7 +78,7 @@ def main():
         # STEP 3: For i = 1,..., n-1 do Steps 4 and 5.
         for i in range(1, n):
             # STEP 4: Set X.
-            X = a + i*h
+            X = a + i * h
 
             # STEP 5: If i is even then set XI2, else set XI1.
             if i % 2 == 0:
@@ -80,10 +87,11 @@ def main():
                 XI1 = XI1 + f(X)
 
         # STEP 6: Set XI.
-        XI = (h/3) * (XI0 + 2*XI2 + 4*XI1)
+        XI = (h / 3) * (XI0 + 2 * XI2 + 4 * XI1)
 
         # STEP 7: Output result..
         print("Approximate solution XI = {:.10f}".format(XI))
 
 
-main()
+if __name__ == "__main__":
+    main()

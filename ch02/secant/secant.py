@@ -5,8 +5,13 @@ from typing import TextIO
 
 
 def secant_method(
-        function: Callable[[float], float], p_0: float, p_1: float, tol: float, n_0: int,
-        file: TextIO = None, table_output: bool = False
+    function: Callable[[float], float],
+    p_0: float,
+    p_1: float,
+    tol: float,
+    n_0: int,
+    file: TextIO = None,
+    table_output: bool = False,
 ) -> float:
     """To find a solution to f(x) = 0 given initial approximations p_0 and p_1:
     INPUT initial approximations p_0 and p_1; tolerance TOL; maximum number of iterations N0.
@@ -18,7 +23,7 @@ def secant_method(
         if not file:
             print(output_string)
         else:
-            file.write(output_string + '\n')
+            file.write(output_string + "\n")
         row_output(0, p_0, file)
         row_output(1, p_1, file)
 
@@ -51,7 +56,7 @@ def secant_method(
                 TOL = {}
                 """).format(p, f_p, i, tol)
             if table_output:
-                output_string = '-' * 37 + '\n' + output_string
+                output_string = "-" * 37 + "\n" + output_string
             if not file:
                 print(output_string)
             else:
@@ -68,13 +73,15 @@ def secant_method(
             q_1 = f_p
 
     # STEP 7: The procedure was unsuccessful
-    output_string = cleandoc("""\
+    output_string = cleandoc(
+        """\
           Iteration number {} gave approximation {:.10f},
           with f(P) = {:.10f}
           not within tolerance {}.
-          """.format(i, p, f_p, tol))
+          """.format(i, p, f_p, tol)
+    )
     if table_output:
-        output_string = '-' * 37 + '\n' + output_string
+        output_string = "-" * 37 + "\n" + output_string
     if not file:
         print(output_string)
     else:

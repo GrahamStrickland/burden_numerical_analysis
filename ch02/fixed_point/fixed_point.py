@@ -5,8 +5,12 @@ from typing import TextIO
 
 
 def fixed_point(
-        function: Callable[[float], float], p_0: float, tol: float, n_0: int,
-        file: TextIO = None, table_output: bool = False
+    function: Callable[[float], float],
+    p_0: float,
+    tol: float,
+    n_0: int,
+    file: TextIO = None,
+    table_output: bool = False,
 ) -> float:
     """To find a solution to p = g(p) given an initial approximation p_0:
     INPUT initial approximation p_0; tolerance TOL; maximum number of iterations n_0.
@@ -18,7 +22,7 @@ def fixed_point(
         if not file:
             print(output_string)
         else:
-            file.write(output_string + '\n')
+            file.write(output_string + "\n")
         row_output(0, p_0, file)
 
     # STEP 1: set iterator
@@ -36,7 +40,7 @@ def fixed_point(
 
         if table_output:
             row_output(i, p, file)
-      
+
         # STEP 4: the procedure was successful
         if abs(p - p_0) < tol:
             output_string = cleandoc("""\
@@ -45,13 +49,13 @@ def fixed_point(
             TOL = {}
             """).format(p, i, tol)
             if table_output:
-                output_string = '-' * 37 + '\n' + output_string
+                output_string = "-" * 37 + "\n" + output_string
             if not file:
                 print(output_string)
             else:
                 file.write(output_string)
             return p
-      
+
         # STEP 5: increment iterator
         i += 1
 
@@ -59,13 +63,15 @@ def fixed_point(
         p_0 = p
 
     # STEP 7: the procedure was unsuccessful
-    output_string = cleandoc("""\
+    output_string = cleandoc(
+        """\
         The method failed after {} iterations,
         gave approximation {:.10f}, 
         not within tolerance {}.
-        """.format(i, p, tol))
+        """.format(i, p, tol)
+    )
     if table_output:
-        output_string = '-' * 27 + '\n' + output_string
+        output_string = "-" * 27 + "\n" + output_string
     if not file:
         print(output_string)
     else:

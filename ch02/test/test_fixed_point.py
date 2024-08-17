@@ -21,7 +21,7 @@ def test_fixed_point_polynomial() -> None:
 
 def test_fixed_point_polynomial2() -> None:
     def func(x: float) -> float:
-        return 2.0/x - 1.0/x**2
+        return 2.0 / x - 1.0 / x**2
 
     p_0: float = 0.5
     tol: float = 1e-4
@@ -35,7 +35,7 @@ def test_fixed_point_polynomial2() -> None:
 
 def test_fixed_point_polynomial3() -> None:
     def func(x: float) -> float:
-        return math.sqrt(2.0 - 1.0/x)
+        return math.sqrt(2.0 - 1.0 / x)
 
     p_0: float = 0.5
     tol: float = 1e-4
@@ -49,7 +49,7 @@ def test_fixed_point_polynomial3() -> None:
 
 def test_fixed_point_polynomial4() -> None:
     def func(x: float) -> float:
-        return - (1.0 - 2.0*x)**(1.0/3.0)
+        return -((1.0 - 2.0 * x) ** (1.0 / 3.0))
 
     p_0: float = 0.5
     tol: float = 1e-4
@@ -63,7 +63,7 @@ def test_fixed_point_polynomial4() -> None:
 
 def test_fixed_point_polynomial5() -> None:
     def func(x: float) -> float:
-        return (3.0*x**2 + 3.0)**0.25
+        return (3.0 * x**2 + 3.0) ** 0.25
 
     p_0: float = 1
     tol: float = 0.01
@@ -77,7 +77,7 @@ def test_fixed_point_polynomial5() -> None:
 
 def test_fixed_point_trig() -> None:
     def func(x: float) -> float:
-        return math.pi + 0.5*math.sin(x/2.0)
+        return math.pi + 0.5 * math.sin(x / 2.0)
 
     p_0: float = math.pi
     tol: float = 0.01
@@ -91,7 +91,7 @@ def test_fixed_point_trig() -> None:
 
 def test_fixed_point_sqrt() -> None:
     def func(x: float) -> float:
-        return 0.5*(x+3.0/x)
+        return 0.5 * (x + 3.0 / x)
 
     p_0: float = 1.0
     tol: float = 1e-6
@@ -119,7 +119,7 @@ def test_fixed_point_exponential() -> None:
 
 def test_fixed_point_polynomial6() -> None:
     def func(x: float) -> float:
-        return (5.0/x**2) + 2.0
+        return (5.0 / x**2) + 2.0
 
     p_0: float = 2.5
     tol: float = 1e-6
@@ -133,7 +133,7 @@ def test_fixed_point_polynomial6() -> None:
 
 def test_fixed_point_exponential2() -> None:
     def func(x: float) -> float:
-        return (math.exp(x)/3.0)**0.5
+        return (math.exp(x) / 3.0) ** 0.5
 
     p_0: float = 0.25
     tol: float = 1e-6
@@ -147,7 +147,7 @@ def test_fixed_point_exponential2() -> None:
 
 def test_fixed_point_power() -> None:
     def func(x: float) -> float:
-        return 5.0**(-x)
+        return 5.0 ** (-x)
 
     p_0: float = 0.3
     tol: float = 1e-6
@@ -161,7 +161,7 @@ def test_fixed_point_power() -> None:
 
 def test_fixed_point_power2() -> None:
     def func(x: float) -> float:
-        return 6.0**(-x)
+        return 6.0 ** (-x)
 
     p_0: float = 0.3
     tol: float = 1e-6
@@ -175,7 +175,7 @@ def test_fixed_point_power2() -> None:
 
 def test_fixed_point_trig2() -> None:
     def func(x: float) -> float:
-        return 0.5*(math.sin(x) + math.cos(x))
+        return 0.5 * (math.sin(x) + math.cos(x))
 
     p_0: float = 0
     tol: float = 1e-6
@@ -189,7 +189,7 @@ def test_fixed_point_trig2() -> None:
 
 def test_fixed_point_sqrt() -> None:
     def func(x: float) -> float:
-        return 0.5*(x+3.0/x)
+        return 0.5 * (x + 3.0 / x)
 
     p_0: float = 1.0
     tol: float = 1e-6
@@ -217,7 +217,7 @@ def test_fixed_point_exponential() -> None:
 
 def test_fixed_point_polynomial6() -> None:
     def func(x: float) -> float:
-        return (5.0/x**2) + 2.0
+        return (5.0 / x**2) + 2.0
 
     p_0: float = 2.5
     tol: float = 1e-6
@@ -231,7 +231,7 @@ def test_fixed_point_polynomial6() -> None:
 
 def test_fixed_point_exponential2() -> None:
     def func(x: float) -> float:
-        return (math.exp(x)/3.0)**0.5
+        return (math.exp(x) / 3.0) ** 0.5
 
     p_0: float = 0.25
     tol: float = 1e-6
@@ -245,7 +245,7 @@ def test_fixed_point_exponential2() -> None:
 
 def test_fixed_point_power() -> None:
     def func(x: float) -> float:
-        return 5.0**(-x)
+        return 5.0 ** (-x)
 
     p_0: float = 0.3
     tol: float = 1e-6
@@ -259,7 +259,7 @@ def test_fixed_point_power() -> None:
 
 def test_fixed_point_power2() -> None:
     def func(x: float) -> float:
-        return 6.0**(-x)
+        return 6.0 ** (-x)
 
     p_0: float = 0.3
     tol: float = 1e-6

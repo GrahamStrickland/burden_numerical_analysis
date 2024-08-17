@@ -7,7 +7,7 @@ from ..bisection.bisection import bisect
 
 def test_bisection_polynomial() -> None:
     def func(x: float) -> float:
-        return x**3 + 4.0*x**2 - 10.0
+        return x**3 + 4.0 * x**2 - 10.0
 
     a: float = 1.0
     b: float = 2.0
@@ -37,7 +37,7 @@ def test_bisection_trig_polynomial() -> None:
 
 def test_bisection_polynomial2() -> None:
     def func(x: float) -> float:
-        return x**3 - 7.0*x**2 + 14.0*x - 6.0
+        return x**3 - 7.0 * x**2 + 14.0 * x - 6.0
 
     a: float = 0.0
     b: float = 1.0
@@ -52,7 +52,7 @@ def test_bisection_polynomial2() -> None:
 
 def test_bisection_polynomial3() -> None:
     def func(x: float) -> float:
-        return x**3 - 7.0*x**2 + 14.0*x - 6.0
+        return x**3 - 7.0 * x**2 + 14.0 * x - 6.0
 
     a: float = 1.0
     b: float = 3.2
@@ -67,7 +67,7 @@ def test_bisection_polynomial3() -> None:
 
 def test_bisection_polynomial4() -> None:
     def func(x: float) -> float:
-        return x**3 - 7.0*x**2 + 14.0*x - 6.0
+        return x**3 - 7.0 * x**2 + 14.0 * x - 6.0
 
     a: float = 3.2
     b: float = 4.0
@@ -82,7 +82,7 @@ def test_bisection_polynomial4() -> None:
 
 def test_bisection_power() -> None:
     def func(x: float) -> float:
-        return x - 2.0**(-x)
+        return x - 2.0 ** (-x)
 
     a: float = 0.0
     b: float = 1.0
@@ -97,7 +97,7 @@ def test_bisection_power() -> None:
 
 def test_bisection_exponential() -> None:
     def func(x: float) -> float:
-        return math.exp(x) - x**2 + 3.0*x - 2.0
+        return math.exp(x) - x**2 + 3.0 * x - 2.0
 
     a: float = 0.0
     b: float = 1.0
@@ -112,7 +112,7 @@ def test_bisection_exponential() -> None:
 
 def test_bisection_trig_polynomial2() -> None:
     def func(x: float) -> float:
-        return 2.0*x*math.cos(2.0*x) - (x + 1.0)**2
+        return 2.0 * x * math.cos(2.0 * x) - (x + 1.0) ** 2
 
     a: float = -3.0
     b: float = -2.0
@@ -127,7 +127,7 @@ def test_bisection_trig_polynomial2() -> None:
 
 def test_bisection_trig_polynomial3() -> None:
     def func(x: float) -> float:
-        return 2.0*x*math.cos(2.0*x) - (x + 1.0)**2
+        return 2.0 * x * math.cos(2.0 * x) - (x + 1.0) ** 2
 
     a: float = -1.0
     b: float = 0.0
@@ -142,7 +142,7 @@ def test_bisection_trig_polynomial3() -> None:
 
 def test_bisection_trig_polynomial4() -> None:
     def func(x: float) -> float:
-        return x*math.cos(x) - 2.0*x**2 + 3.0*x - 1.0
+        return x * math.cos(x) - 2.0 * x**2 + 3.0 * x - 1.0
 
     a: float = 0.2
     b: float = 0.3
@@ -157,7 +157,7 @@ def test_bisection_trig_polynomial4() -> None:
 
 def test_bisection_trig_polynomial5() -> None:
     def func(x: float) -> float:
-        return x*math.cos(x) - 2.0*x**2 + 3.0*x - 1.0
+        return x * math.cos(x) - 2.0 * x**2 + 3.0 * x - 1.0
 
     a: float = 1.2
     b: float = 1.3
