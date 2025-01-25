@@ -96,7 +96,7 @@ def main():
                 R[1][j] = R[1][j - 1] + (R[1][j - 1] - R[0][j - 1]) / (4**j - 1)
 
             # STEP 6: Output R[2,j] for j = 1, 2,..., i.
-            str = f"R[{i+1}]\t"
+            str = f"R[{i + 1}]\t"
             for j in range(i + 1):
                 str = str + "{:.8f}\t".format(R[1][j])
             print(str)

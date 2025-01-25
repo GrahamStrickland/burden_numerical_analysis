@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import math
+
 from pytest import approx
 
 from ..eulers_method.eulers_method import eulers_method

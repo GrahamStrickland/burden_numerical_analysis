@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import math
+
 from pytest import approx
 
 from ..runge_kutta_fehlberg.runge_kutta_fehlberg import runge_kutta_fehlberg

@@ -4,8 +4,8 @@
 # maximum number of iterations N0.
 # OUTPUT approximate solution p or message of failure.
 # import the math module
-import math
 import cmath
+import math
 
 
 # define value input function

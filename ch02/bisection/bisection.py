@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-from inspect import cleandoc
 from collections.abc import Callable
+from inspect import cleandoc
 from typing import TextIO
 
 
@@ -20,7 +20,7 @@ def bisect(
     """
     if table_output:
         # output table heading
-        output_string = f"{'-'*80}\n\t\ta\t\tb\t\tP\t\tf(P)\n{'-'*80}"
+        output_string = f"{'-' * 80}\n\t\ta\t\tb\t\tP\t\tf(P)\n{'-' * 80}"
         if not file:
             print(output_string)
         else:

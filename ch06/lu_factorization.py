@@ -45,13 +45,13 @@ def inp(OK, solve, n, A, L, U, b):
     while not OK:
         print("Please enter the coefficients for matrix A: ")
         for i in range(n):
-            print(f"Row {i+1}:")
+            print(f"Row {i + 1}:")
             for j in range(n):
-                A[i, j] = np.double(input(f"A[{i+1}, {j+1}]: "))
+                A[i, j] = np.double(input(f"A[{i + 1}, {j + 1}]: "))
         if solve:
             print("Column vector b:")
             for k in range(n):
-                b[k] = np.double(input(f"b[{k+1}]: "))
+                b[k] = np.double(input(f"b[{k + 1}]: "))
         OK = True
 
     # Input matrix to contain 1's along main diagonal
@@ -178,4 +178,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

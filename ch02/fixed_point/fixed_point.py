@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-from inspect import cleandoc
 from collections.abc import Callable
+from inspect import cleandoc
 from typing import TextIO
 
 

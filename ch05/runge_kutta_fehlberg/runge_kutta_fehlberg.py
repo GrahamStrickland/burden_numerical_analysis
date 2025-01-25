@@ -2,7 +2,6 @@
 from collections.abc import Callable
 from typing import TextIO
 
-
 LONG_BORDER = 108
 SHORT_BORDER = 60
 
@@ -27,10 +26,12 @@ def runge_kutta_fehlberg(
     """
     # output table heading
     if solution:
-        output_string = f"{'-'*LONG_BORDER}\nt_i\t\t\tw_i\t\t\th\t\t\ty_i=y(t_i)\t\t"
-        output_string += f"|y_i - w_i|\n{'-'*LONG_BORDER}"
+        output_string = f"{'-' * LONG_BORDER}\nt_i\t\t\tw_i\t\t\th\t\t\ty_i=y(t_i)\t\t"
+        output_string += f"|y_i - w_i|\n{'-' * LONG_BORDER}"
     else:
-        output_string = f"{'-'*SHORT_BORDER}\nt_i\t\t\tw_i\t\t\th\n{'-'*SHORT_BORDER}"
+        output_string = (
+            f"{'-' * SHORT_BORDER}\nt_i\t\t\tw_i\t\t\th\n{'-' * SHORT_BORDER}"
+        )
     if not file:
         print(output_string)
     else:

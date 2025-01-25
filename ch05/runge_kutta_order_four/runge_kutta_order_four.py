@@ -2,7 +2,6 @@
 from collections.abc import Callable
 from typing import TextIO
 
-
 LONG_BORDER = 76
 SHORT_BORDER = 28
 
@@ -23,9 +22,9 @@ def runge_kutta_order_four(
     """
     # output table heading
     if solution:
-        output_string = f"{'-'*LONG_BORDER}\nt_i\t\tw_i\t\t\ty_i=y(t_i)\t\t|y_i - w_i|\n{'-'*LONG_BORDER}"
+        output_string = f"{'-' * LONG_BORDER}\nt_i\t\tw_i\t\t\ty_i=y(t_i)\t\t|y_i - w_i|\n{'-' * LONG_BORDER}"
     else:
-        output_string = f"{'-'*SHORT_BORDER}\nt_i\t\tw_i\n{'-'*SHORT_BORDER}"
+        output_string = f"{'-' * SHORT_BORDER}\nt_i\t\tw_i\n{'-' * SHORT_BORDER}"
 
     if not file:
         print(output_string)

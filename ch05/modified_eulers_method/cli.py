@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import argparse
-import math
 from typing import TextIO
 
 from modified_eulers_method import modified_eulers_method

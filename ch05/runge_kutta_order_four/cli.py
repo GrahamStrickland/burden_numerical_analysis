@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import argparse
-import math
 from typing import TextIO
 
 from runge_kutta_order_four import runge_kutta_order_four

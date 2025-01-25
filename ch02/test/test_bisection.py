@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import math
+
 from pytest import approx
 
 from ..bisection.bisection import bisect

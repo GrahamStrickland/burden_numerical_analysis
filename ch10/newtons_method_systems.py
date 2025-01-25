@@ -42,7 +42,7 @@ def inp(OK, n, x, TOL, N):
         while not OK:
             print("Please enter the initial approximations for x: ")
             for i in range(n):
-                x[i] = np.double(input(f"x[{i+1}]: "))
+                x[i] = np.double(input(f"x[{i + 1}]: "))
             OK = True
 
             # Input tolerance TOL

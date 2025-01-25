@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import math
+
 from pytest import approx
 
 from ..adams_variable_step.adams_variable_step import adams_variable_step

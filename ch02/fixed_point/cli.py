@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import argparse
-import math
 from typing import TextIO
 
 from fixed_point import fixed_point

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import math
+
 from pytest import approx
 
 from ..adams_fourth_order.adams_fourth_order import adams_fourth_order

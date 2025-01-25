@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 import math
+
 from pytest import approx
 
-from ..modified_eulers_method.modified_eulers_method import modified_eulers_method
+from ..modified_eulers_method.modified_eulers_method import \
+    modified_eulers_method
 
 
 def test_modified_eulers_method() -> None:

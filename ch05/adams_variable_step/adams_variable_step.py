@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 import math
-
 from collections.abc import Callable
 from typing import TextIO
-
 
 LONG_BORDER = 132
 SHORT_BORDER = 84
@@ -29,12 +27,10 @@ def adams_variable_step(
     """
     # output table heading
     if solution:
-        output_string = f"{'-'*LONG_BORDER}\nt_i\t\t\ty_i=y(t_i)\t\tw_i\t\t\th\t\t\t"
-        output_string += f"sigma_i\t\t\t|y_i - w_i|\n{'-'*LONG_BORDER}"
+        output_string = f"{'-' * LONG_BORDER}\nt_i\t\t\ty_i=y(t_i)\t\tw_i\t\t\th\t\t\t"
+        output_string += f"sigma_i\t\t\t|y_i - w_i|\n{'-' * LONG_BORDER}"
     else:
-        output_string = (
-            f"{'-'*SHORT_BORDER}\nt_i\t\t\tw_i\t\t\th\t\t\tsigma_i\n{'-'*SHORT_BORDER}"
-        )
+        output_string = f"{'-' * SHORT_BORDER}\nt_i\t\t\tw_i\t\t\th\t\t\tsigma_i\n{'-' * SHORT_BORDER}"
     if not file:
         print(output_string)
     else:

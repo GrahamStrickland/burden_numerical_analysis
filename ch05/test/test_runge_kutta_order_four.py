@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 import math
+
 from pytest import approx
 
-from ..runge_kutta_order_four.runge_kutta_order_four import runge_kutta_order_four
+from ..runge_kutta_order_four.runge_kutta_order_four import \
+    runge_kutta_order_four
 
 
 def test_runge_kutta_order_four() -> None:

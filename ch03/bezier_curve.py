@@ -43,8 +43,8 @@ def inp(OK, n, x, y):
             "Please enter the values for the guidepoints (x0-, y0-),..., (xn-, yn-): "
         )
         for i in range(n):
-            x[2].append(float(input(f"x{i+1}-: ")))
-            y[2].append(float(input(f"y{i+1}-: ")))
+            x[2].append(float(input(f"x{i + 1}-: ")))
+            y[2].append(float(input(f"y{i + 1}-: ")))
 
         OK = True
 
@@ -91,4 +91,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

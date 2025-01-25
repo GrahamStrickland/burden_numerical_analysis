@@ -30,15 +30,15 @@ def inp(OK, n, A, b, XO, TOL, N):
     while not OK:
         print("Please enter the coefficients for matrix A: ")
         for i in range(n):
-            print(f"Row {i+1}:")
+            print(f"Row {i + 1}:")
             for j in range(n):
-                A[i, j] = np.double(input(f"A[{i+1}, {j+1}]: "))
+                A[i, j] = np.double(input(f"A[{i + 1}, {j + 1}]: "))
         print("Please enter the values of the column vector b: ")
         for k in range(n):
-            b[k] = np.double(input(f"b[{k+1}]: "))
+            b[k] = np.double(input(f"b[{k + 1}]: "))
         print("Please enter the initial approximations for x0: ")
         for l in range(n):
-            XO[l] = np.double(input(f"x0[{l+1}]: "))
+            XO[l] = np.double(input(f"x0[{l + 1}]: "))
         OK = True
 
     if OK:
@@ -99,7 +99,7 @@ def main():
 
             print(f"Iteration {k}:")
             for i in range(n):
-                print(f"x[{i+1}] = {x[i]}")
+                print(f"x[{i + 1}] = {x[i]}")
 
             # STEP 4: If ||x - XO|| < TOL then procedure was successful.
             norm = abs(x[0] - XO[0])
@@ -127,4 +127,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

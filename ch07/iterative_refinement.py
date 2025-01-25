@@ -31,12 +31,12 @@ def inp(OK, n, A, b, N, TOL, t):
     while not OK:
         print("Please enter the coefficients for matrix A: ")
         for i in range(n):
-            print(f"Row {i+1}:")
+            print(f"Row {i + 1}:")
             for j in range(n):
-                A[i, j] = float(input(f"A[{i+1}, {j+1}]: "))
+                A[i, j] = float(input(f"A[{i + 1}, {j + 1}]: "))
         print("Please enter the values of the column vector b: ")
         for k in range(n):
-            b[k] = float(input(f"b[{k+1}]: "))
+            b[k] = float(input(f"b[{k + 1}]: "))
         OK = True
 
     if OK:
